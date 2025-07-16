@@ -4,6 +4,6 @@
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public List<TaskTag> Tags { get; set; } = new();
+        public List<ToDoTask> Tasks { get; set; } = new();
     }
 }

@@ -10,7 +10,7 @@
         public Guid PriorityId { get; set; }
         public Priority Priority { get; set; } = new();
 
-        public List<TaskTag> Tags { get; set; } = new();
+        public List<Tag> Tags { get; set; } = new();
 
         public Guid UserId { get; set; }
         public User User { get; set; } = null!;
