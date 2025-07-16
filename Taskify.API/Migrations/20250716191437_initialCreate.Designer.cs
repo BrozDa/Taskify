@@ -12,7 +12,7 @@ using Taskify.API.Data;
 namespace Taskify.API.Migrations
 {
     [DbContext(typeof(TaskifyDbContext))]
-    [Migration("20250716161354_initialCreate")]
+    [Migration("20250716191437_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -130,15 +130,15 @@ namespace Taskify.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
