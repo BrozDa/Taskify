@@ -14,14 +14,6 @@ namespace Taskify.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-
-            modelBuilder.Entity<Priority>().HasData(
-                new Priority() { Id = Guid.Parse("00000000-0000-0000-0000-000000000001"), Name = "Low" },
-                new Priority() { Id = Guid.Parse("00000000-0000-0000-0000-000000000002"), Name = "Medium" },
-                new Priority() { Id = Guid.Parse("00000000-0000-0000-0000-000000000003"), Name = "High" },
-                new Priority() { Id = Guid.Parse("00000000-0000-0000-0000-000000000004"), Name = "Critical" }
-             );
-
             modelBuilder.Entity<ToDoTask>()
                 .HasOne(p => p.Priority)
                 .WithMany(t => t.Tasks)
