@@ -5,10 +5,10 @@ namespace Taskify.API.Data
 {
     public class TaskifyDbContext(DbContextOptions options) : DbContext(options)
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Priority> Priorities { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<ToDoTask> ToDoTasks { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Priority> Priorities { get; set; } = null!;
+        public DbSet<Tag> Tags { get; set; } = null!;
+        public DbSet<ToDoTask> ToDoTasks { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
