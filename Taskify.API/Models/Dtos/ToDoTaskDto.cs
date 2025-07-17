@@ -8,6 +8,6 @@
         public DateTime DueDate { get; set; }
         public string Priotity { get; set; } = string.Empty;
         public List<Tag> Tags { get; set; } = new();
-        public User User { get; set; }
+        public User User { get; set; } = null!;
     }
 }
