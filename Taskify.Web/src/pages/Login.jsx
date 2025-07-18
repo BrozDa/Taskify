@@ -24,21 +24,22 @@ function Login() {
       const token = await userLogin(username, password);
       setToken(token);
       navigate('/dashboard');
+
     } catch (err) {
       setError("Invalid username or password");
     }
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div className="flex items-center justify-center rounded-lg bg-gray-600 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md dark:bg-gray-800">
 
         {successMessage && (
         <h2 className="mb-6 text-2xl font-semibold text-center text-green-800 dark:text-white">
           {successMessage}
         </h2>
         )}
-        <h2 className="mb-6 text-2xl font-semibold text-center text-gray-800 dark:text-white">
+        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400 dark:text-white">
           Sign in to your account
         </h2>
 

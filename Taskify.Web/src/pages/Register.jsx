@@ -27,7 +27,7 @@ function Register() {
         navigate("/login", { state: { successMessage: "Account created!" } });
 
       } catch (err) {
-        setError(err);
+        setError(err.message);
       }
     }
 

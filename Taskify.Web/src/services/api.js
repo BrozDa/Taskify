@@ -62,9 +62,9 @@ export const userRegistration = async(username, password) => {
     return response.data
   }
   catch (error){
-    if(axios.isAxiosError){
+    if(axios.isAxiosError(error)){
       const status = error.response?.status;
-      const message = error.response?.message;
+      const message = error.response?.data || error.message;
 
       if(status === 401){
         throw new Error("User with this username already exists")
