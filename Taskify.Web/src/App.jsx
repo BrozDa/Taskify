@@ -1,20 +1,39 @@
 import { useState } from 'react'
 import './App.css'
-import { Routes, Route } from "react-router-dom";
-import Dashboard from './pages/Dashboard'
-import Login from './pages/Login'
-import Register from './pages/Register';
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const [loggedIn, setLoggedin] = useState(false)
+  const [loggedIn, setLoggedin] = useState(false);
+  const { token } = useAuth();
+  
+  const ProtectedRoute = ({ children }) => {
+    
+    return token ? children : <Navigate to="/login" replace />;
+  };
 
   return (
-    <>
-    <Routes>
-      <Route path="/" element={loggedIn?<Dashboard/> : <Register/>}/>
-    </Routes>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+          token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+        }/>
+
+        <Route path="/login" element={<Login/>}/>
+
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+        </ProtectedRoute>
+        }/>
+
+      </Routes>
+    </BrowserRouter>
+  );
+
 }
 
 export default App

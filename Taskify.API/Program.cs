@@ -61,7 +61,10 @@ namespace Taskify.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
