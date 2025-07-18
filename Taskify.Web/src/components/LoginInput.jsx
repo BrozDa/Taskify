@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 
-function LoginInput({ label, id, type = 'text', value,onChange,required }) {
+function LoginInput({ label, id, type = 'text', value,onChange,required}) {
   return (
     <div>
       <label htmlFor={id} className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
