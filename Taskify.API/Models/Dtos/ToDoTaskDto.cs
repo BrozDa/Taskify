@@ -6,8 +6,8 @@
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime DueDate { get; set; }
-        public string Priotity { get; set; } = string.Empty;
-        public List<Models.Tag> Tags { get; set; } = new();
-        public User User { get; set; } = null!;
+        public PriorityDto Priority { get; set; } = new();
+        public List<TagDto> Tags { get; set; } = new();
+
     }
 }
