@@ -10,10 +10,10 @@ namespace Taskify.API.Services
     {
         public async Task InsertSeedData()
         {
-            var priorityLow = new Priority() { Name = "Low", BackgroundClass = "bg-green-200 text-green-800" };
-            var priorityMedium = new Priority() { Name = "Medium", BackgroundClass = "bg-yellow-200 text-yellow-800" };
-            var priorityHigh = new Priority() { Name = "High", BackgroundClass = "bg-orange-300 text-orange-900" };
-            var priorityCritical = new Priority() { Name = "Critical", BackgroundClass = "bg-red-500 text-white" };
+            var priorityLow = new Priority() { Name = "Low", BackgroundClass = "green" };
+            var priorityMedium = new Priority() { Name = "Medium", BackgroundClass = "yellow" };
+            var priorityHigh = new Priority() { Name = "High", BackgroundClass = "orange" };
+            var priorityCritical = new Priority() { Name = "Critical", BackgroundClass = "red" };
 
             await context.Priorities.AddRangeAsync(priorityLow, priorityMedium, priorityHigh, priorityCritical);
             await context.SaveChangesAsync();
