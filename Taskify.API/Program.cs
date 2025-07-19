@@ -49,7 +49,7 @@ namespace Taskify.API
             {
                 var services = scope.ServiceProvider;
                 var seeder = services.GetRequiredService<SeedService>();
-                await seeder.InsertInitialData(); // Run your seeding logic here
+                await seeder.InsertSeedData();
             }
 
 
