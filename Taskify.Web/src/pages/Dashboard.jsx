@@ -21,13 +21,9 @@ function Dashboard() {
         <DashboardMenu />
         <div className="flex flex-col flex-1">
             <DashboardHeader />
-            <div className="p-4 flex flex-wrap gap-6 justify-start">
-                {tasks && tasks.map(t => (
-                <div key={t.id} className="flex-shrink-0 w-96">
-                    <Task task={t} />
-                </div>
-            ))}
-</div>
+            <div className="flex flex-shrink-0 flex-wrap justify-start gap-6 p-4">
+                {tasks && tasks.map(t => (<Task key={t.id} task={t} />))}
+            </div>
         </div>
     </div>
     

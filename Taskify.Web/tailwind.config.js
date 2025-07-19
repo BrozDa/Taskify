@@ -3,6 +3,12 @@ export default {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  safelist: [
+    'bg-green-200', 'text-green-800',
+    'bg-yellow-200', 'text-yellow-800',
+    'bg-orange-200', 'text-orange-900',
+    'bg-red-500', 'text-white'
+  ],
   darkMode: 'class',
   theme: {
     extend: {

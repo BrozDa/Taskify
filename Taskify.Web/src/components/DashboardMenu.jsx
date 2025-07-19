@@ -1,6 +1,18 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from "../context/AuthContext";
 
 function DashboardMenu() {
+
+    const { setToken } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setToken(null);
+        navigate("/");
+    }
+
+
   return (
     <div className="hidden md:flex flex-col w-64 bg-gray-800">
         <div className="flex items-center justify-center h-16 bg-gray-900">
@@ -25,7 +37,7 @@ function DashboardMenu() {
                     Search
                 </a>
                 
-                <a href="#" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                <a href="#" onClick={() => handleLogout()} className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
