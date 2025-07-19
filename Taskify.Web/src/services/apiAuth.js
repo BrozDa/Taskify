@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const baseUrl = "https://localhost:7024/api";
+const baseUrl = "https://localhost:7024/api/Auth";
 
-export const userLogin = async (username, password) => {
+export const authLogin = async (username, password) => {
 
   try{
     const response = await axios
-    .post(`${baseUrl}/Auth/login`, {
+    .post(`${baseUrl}/login`, {
       username,
       password,
       }, 
@@ -40,10 +40,10 @@ export const userLogin = async (username, password) => {
   }
   
 };
-export const userRegistration = async(username, password) => {
+export const authRegistration = async(username, password) => {
   try{
     const response = await axios
-    .post(`${baseUrl}/Auth/register`, {
+    .post(`${baseUrl}/register`, {
       username,
       password,
       "role" : "user"

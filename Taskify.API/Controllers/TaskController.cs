@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taskify.API.Data;
+using Taskify.API.Models;
 using Taskify.API.Models.Dtos;
 
 namespace Taskify.API.Controllers
@@ -30,5 +31,6 @@ namespace Taskify.API.Controllers
 
             return result;
         }
+       
     }
 }

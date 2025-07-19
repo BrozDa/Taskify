@@ -50,11 +50,11 @@ namespace Taskify.API.Services
         private async Task InsertInitialTags()
         {
             await context.Tags.AddRangeAsync(
-                new List<Tag>()
+                new List<Models.Tag>()
                 {
-                    new Tag(){Name="Family"},
-                    new Tag(){Name="Work"},
-                    new Tag(){Name="Study"},
+                    new Models.Tag(){ Name="Family"},
+                    new Models.Tag(){ Name="Work"},
+                    new Models.Tag(){ Name="Study"},
                 });
 
             await context.SaveChangesAsync();
@@ -85,7 +85,7 @@ namespace Taskify.API.Services
                     Description = "It would be nice to find a job",
                     DueDate = DateTime.Now,
                     Priority = priorities.First(p => p.Name == "Critical"),
-                    Tags = new List<Tag>()
+                    Tags = new List<Models.Tag>()
                         {
 
                             tags.First(x => x.Name == "Work"),
@@ -99,7 +99,7 @@ namespace Taskify.API.Services
                     Description = "Learned so much already, working on more",
                     DueDate = DateTime.Now,
                     Priority = priorities.First(p => p.Name == "High"),
-                    Tags = new List<Tag>()
+                    Tags = new List<Models.Tag>()
                         {
 
                             tags.First(x => x.Name == "Study")
@@ -112,7 +112,7 @@ namespace Taskify.API.Services
                     Description = "Havent seen them for quite some time",
                     DueDate = DateTime.Now,
                     Priority = priorities.First(p => p.Name == "Medium"),
-                    Tags = new List<Tag>()
+                    Tags = new List<Models.Tag>()
                         {
 
                             tags.First(x => x.Name == "Family")

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import LoginInput from '../components/LoginInput';
 import Button from '../components/Button';
-import {userRegistration} from "../services/api";
+import {authRegistration} from "../services/apiAuth";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -23,7 +23,7 @@ function Register() {
       }
 
       try {
-        await userRegistration(username, password);
+        await authRegistration(username, password);
         navigate("/login", { state: { successMessage: "Account created!" } });
 
       } catch (err) {

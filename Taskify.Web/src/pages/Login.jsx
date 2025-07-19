@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "../context/AuthContext";
-import {userLogin} from "../services/api"
+import {authLogin} from "../services/apiAuth"
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginInput from '../components/LoginInput';
 import Button from '../components/Button';
@@ -21,7 +21,7 @@ function Login() {
   const handleSubmit = async(username, password, e) => {
     e.preventDefault();
     try {
-      const token = await userLogin(username, password);
+      const token = await authLogin(username, password);
       setToken(token);
       navigate('/dashboard');
 
