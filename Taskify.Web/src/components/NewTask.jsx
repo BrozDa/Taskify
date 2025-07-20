@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { tasksAddTask } from '../services/apiTasks';
+
 import NewTaskPriority from './NewTaskPriority';
 import NewTaskDatePicker from './NewTaskDatePicker';
 import NewTaskText from './NewTaskText';
 import NewTaskAddTag from './NewTaskAddTag';
 import Button from './Button';
-function NewTask({priorities, tags}) {
+
+function NewTask({priorities, tags, addNewTask}) {
 
   const [newPriority, setNewPriority] = useState(null);
   const [newTaskDueDate, setNewTaskDueDate] = useState(null);
@@ -23,7 +26,6 @@ function NewTask({priorities, tags}) {
     setUsableTags(usableTags.filter(t => t.name !== newTag.name));
   }
   const handleNewTaskName = (value) => {
-    {console.log(value)}
     if(value.length === 0) setNewTaskName("New Task Name")
     else setNewTaskName(value)
   }
@@ -32,6 +34,20 @@ function NewTask({priorities, tags}) {
   }
 
   const handleSubmit = async() => {
+    if(!isNewTaskValid()) {return;}
+
+    const newTask = {
+      name: newTaskName,
+      description: newTaskDescription,
+      dueDate: newTaskDueDate,
+      priority: newPriority,
+      tags: newTaskTags
+    }
+    const response = await tasksAddTask(newTask);
+    addNewTask(response);
+
+  }
+  const isNewTaskValid = () => {
     let error = "";
 
     if(!newPriority)
@@ -45,13 +61,9 @@ function NewTask({priorities, tags}) {
       error = "Missing required fields: " + 
         (error.charAt(error.length-2) === "," ? (error.slice(0,error.length-2)) : error);
       setErrorMsg(error);
-      return;
+      return false;
     }
-    console.log(newPriority)
-    console.log(newTaskDueDate)
-    console.log(newTaskName)
-    console.log(newTaskDescription)
-    console.log(newTaskTags)
+    return true;
   }
   return (
   <div className={`flex-col w-96 justify-around bg-blue-400 text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>

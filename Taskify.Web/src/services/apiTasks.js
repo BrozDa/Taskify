@@ -23,3 +23,19 @@ export const tasksGetAll = async() => {
     throw new Error("Unhandled error - contact administrator")
   }
 }
+export const tasksAddTask = async(newTask) => {
+  const token = localStorage.getItem("token");
+  if(!token) throw new Error("No token found");
+  try{
+    const reply = await axios.post(`${baseUrl}/add`, newTask,{
+      timeout: 5000,
+      headers :{
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return reply.data;
+  }
+  catch(error){
+
+  }
+}

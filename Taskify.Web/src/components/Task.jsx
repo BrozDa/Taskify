@@ -20,6 +20,7 @@ function Task({task}) {
     dateStyle: 'medium',
   }).format(date);
 
+  
   return (
   <div className={`flex-col w-96 justify-around ${colors[task.priority.backgroundClass]} m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
     <div className="flex justify-between items-center">

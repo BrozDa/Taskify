@@ -56,6 +56,10 @@ function Dashboard() {
             setTags(fetchedTags);
         }
     }
+    const handleAddNewTask = (newTask) =>
+    {
+        setTasks([newTask,...tasks])
+    }
     
   return (
     <div className="flex min-h-screen w-screen bg-gray-100">
@@ -63,7 +67,7 @@ function Dashboard() {
         <div className="flex flex-col flex-1">
             <DashboardHeader />
             <div className="flex flex-shrink-0 flex-wrap justify-start gap-6 p-4">
-                <NewTask id="a" priorities={priorities} tags={tags}/>
+                <NewTask id="a" priorities={priorities} tags={tags} addNewTask={handleAddNewTask}/>
                 {tasks && tasks.map(t => (<Task key={t.id} task={t} />))}
             </div>
         </div>
