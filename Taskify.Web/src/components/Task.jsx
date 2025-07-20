@@ -18,7 +18,6 @@ function Task({task}) {
 
   const formattedDate = new Intl.DateTimeFormat('cs-CZ',{
     dateStyle: 'medium',
-    timeStyle: 'short',
   }).format(date);
 
   return (

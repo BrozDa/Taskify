@@ -10,6 +10,8 @@ namespace Taskify.API.Services
     {
         public async Task InsertSeedData()
         {
+            if(context.Priorities.Any()) { return; }
+
             var priorityLow = new Priority() { Name = "Low", BackgroundClass = "green" };
             var priorityMedium = new Priority() { Name = "Medium", BackgroundClass = "yellow" };
             var priorityHigh = new Priority() { Name = "High", BackgroundClass = "orange" };
