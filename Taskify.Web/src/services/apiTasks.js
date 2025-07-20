@@ -3,10 +3,15 @@ import axios from "axios";
 const baseUrl = "https://localhost:7024/api/Tasks";
 
 export const tasksGetAll = async() => {
-
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("No token found");
+  
   try{
     const response = await axios.get(`${baseUrl}/all`,{
-      timeout:5000
+      timeout:5000,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
     

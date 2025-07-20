@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { prioritiesGetAll } from "../services/apiPriorities";
 import { tagsGetAll } from "../services/apiTags";
@@ -14,25 +14,49 @@ function Dashboard() {
     const [priorities, setPriorities] = useState([]);
     const [tags, setTags] = useState([]);
 
+    //Due to strict mode double fetching
+    const hasFetchedTasks = useRef(false);
+    const hasFetchedPriorities = useRef(false);
+    const hasFetchedTags = useRef(false);
+
     useEffect(() => {
         getTasks();
         getPriorities();
         getTags();
     },[])
 
-    
+    const getTasks = async() => {
+        //Due to strict mode double fetching
+        if (hasFetchedTasks.current) return;
+        hasFetchedTasks.current = true;
+
+        if(tasks.length === 0){
+            const fetchedTasks = await tasksGetAll();
+            setTasks(fetchedTasks);
+        }
+    }
+
     const getPriorities = async() => {
-        const priorities = await prioritiesGetAll();
-        setPriorities(priorities);
+        //Due to strict mode double fetching
+        if (hasFetchedPriorities.current) return;
+        hasFetchedPriorities.current = true;
+
+        if(priorities.length === 0){
+            const fetchedPriorities = await prioritiesGetAll();
+            setPriorities(fetchedPriorities);     
+        }
     }
     const getTags = async() => {
-        const tags = await tagsGetAll();
-        setTags(tags);
+        //Due to strict mode double fetching
+        if (hasFetchedTags.current) return;
+        hasFetchedTags.current = true;
+
+        if(tags.length === 0){
+            const fetchedTags = await tagsGetAll();
+            setTags(fetchedTags);
+        }
     }
-    const getTasks = async() => {
-        const tasks = await tasksGetAll();
-        setTasks(tasks);
-    }
+    
   return (
     <div className="flex min-h-screen w-screen bg-gray-100">
         <DashboardMenu />
