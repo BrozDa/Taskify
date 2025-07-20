@@ -1,4 +1,5 @@
-﻿using Taskify.API.Models.Dtos;
+﻿using System.Text.Json.Serialization;
+using Taskify.API.Models.Dtos;
 
 namespace Taskify.API.Models
 {
@@ -6,6 +7,7 @@ namespace Taskify.API.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        [JsonIgnore]
         public List<ToDoTask> Tasks { get; set; } = new();
 
         public TagDto ToDto()

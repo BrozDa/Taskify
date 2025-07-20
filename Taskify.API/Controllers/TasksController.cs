@@ -33,6 +33,31 @@ namespace Taskify.API.Controllers
 
             return result;
         }
-       
+        [HttpPost("add")]
+        public async Task<ToDoTaskDto> AddTask(ToDoTaskDto toDoTaskDto)
+        {
+
+            var dtoTagIds = toDoTaskDto.Tags.Select(t => t.Id).ToList();
+            var existingTags = await context.Tags.Where(t => dtoTagIds.Contains(t.Id)).ToListAsync();
+            var existingPriority = await context.Priorities.FindAsync(toDoTaskDto.Priority.Id);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            ToDoTask newTask = new ToDoTask()
+            {
+                Id= Guid.NewGuid(),
+                Name = toDoTaskDto.Name,
+                Description = toDoTaskDto.Description,
+                DueDate = toDoTaskDto.DueDate,
+                PriorityId = existingPriority!.Id,
+                Priority = existingPriority,
+                Tags = existingTags,
+                UserId = Guid.Parse(userId!)
+            };
+            await context.ToDoTasks.AddAsync(newTask);
+            await context.SaveChangesAsync();
+
+            return newTask.ToDto();
+        }
     }
 }

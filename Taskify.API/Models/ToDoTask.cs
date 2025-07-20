@@ -1,4 +1,6 @@
-﻿namespace Taskify.API.Models
+﻿using Taskify.API.Models.Dtos;
+
+namespace Taskify.API.Models
 {
     public class ToDoTask
     {
@@ -15,5 +17,17 @@
         public Guid UserId { get; set; }
         public User User { get; set; } = null!;
 
+        public ToDoTaskDto ToDto()
+        {
+            return new ToDoTaskDto()
+            {
+                Id = Id,
+                Name = Name,
+                Description = Description,
+                DueDate = DueDate,
+                Priority = Priority.ToDto(),
+                Tags = Tags.Select(t => t.ToDto()).ToList()
+            };
+        }
     }
 }
