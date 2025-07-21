@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { prioritiesGetAll } from "../services/apiPriorities";
 import { tagsGetAll } from "../services/apiTags";
 import { tasksGetAll } from "../services/apiTasks";
+import { tasksDeleteTask } from "../services/apiTasks";
 
 import DashboardMenu from '../components/DashboardMenu';
 import DashboardHeader from '../components/DashboardHeader';
@@ -34,6 +35,11 @@ function Dashboard() {
             const fetchedTasks = await tasksGetAll();
             setTasks(fetchedTasks);
         }
+    }
+    const handleDeleteTask = async(taskId) => {
+        const deletedId = await tasksDeleteTask(taskId);
+        setTasks(tasks.filter(t => t.id !== deletedId));
+
     }
 
     const getPriorities = async() => {
@@ -68,7 +74,7 @@ function Dashboard() {
             <DashboardHeader />
             <div className="flex flex-shrink-0 flex-wrap justify-start gap-6 p-4">
                 <NewTask id="a" priorities={priorities} tags={tags} addNewTask={handleAddNewTask}/>
-                {tasks && tasks.map(t => (<Task key={t.id} task={t} />))}
+                {tasks && tasks.map(t => (<Task key={t.id} task={t} handleDelete={handleDeleteTask} />))}
             </div>
         </div>
     </div>

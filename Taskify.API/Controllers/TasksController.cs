@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Security.Claims;
 using Taskify.API.Data;
 using Taskify.API.Models;
@@ -14,7 +15,7 @@ namespace Taskify.API.Controllers
     public class TasksController(TaskifyDbContext context) : Controller
     {
         [HttpGet("all")]
-        public async Task<List<ToDoTaskDto>> GetAllForUser()
+        public async Task<ActionResult<List<ToDoTaskDto>>> GetAllForUser()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -29,14 +30,15 @@ namespace Taskify.API.Controllers
                     Priority = t.Priority.ToDto(),
                     Tags = t.Tags.Select(t => t.ToDto()).ToList(),
                 })
+                .OrderBy(p => p.DueDate)
                 .ToListAsync();
 
-            return result;
+            return Ok(result);
         }
         [HttpPost("add")]
-        public async Task<ToDoTaskDto> AddTask(ToDoTaskDto toDoTaskDto)
+        public async Task<ActionResult<ToDoTaskDto>> AddTask(ToDoTaskDto toDoTaskDto)
         {
-
+            
             var dtoTagIds = toDoTaskDto.Tags.Select(t => t.Id).ToList();
             var existingTags = await context.Tags.Where(t => dtoTagIds.Contains(t.Id)).ToListAsync();
             var existingPriority = await context.Priorities.FindAsync(toDoTaskDto.Priority.Id);
@@ -57,7 +59,18 @@ namespace Taskify.API.Controllers
             await context.ToDoTasks.AddAsync(newTask);
             await context.SaveChangesAsync();
 
-            return newTask.ToDto();
+            return Created("",newTask.ToDto());
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Guid?>> DeleteTask(Guid id)
+        {
+            if (!await context.ToDoTasks.AnyAsync(t => t.Id == id))
+            {
+                return NotFound();
+            }
+            await context.ToDoTasks.Where(x => x.Id == id).ExecuteDeleteAsync();
+
+            return Ok(id);
         }
     }
 }
