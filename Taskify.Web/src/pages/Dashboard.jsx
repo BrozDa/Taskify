@@ -52,7 +52,7 @@ function Dashboard() {
 
         if(priorities.length === 0){
             const fetchedPriorities = await prioritiesGetAll();
-            setPriorities(fetchedPriorities);     
+            setPriorities(fetchedPriorities);   
         }
     }
     const getTags = async() => {
@@ -78,7 +78,7 @@ function Dashboard() {
             <DashboardHeader />
             <div className="flex flex-wrap justify-start gap-6 p-4">
                 <NewTask id="a" priorities={priorities} tags={tags} addNewTask={handleAddNewTask}/>
-                {tasks && tasks.map(t => (<Task key={t.id} task={t} allTags={tags} handleDelete={handleDeleteTask}/>))}
+                {tasks && tasks.map(t => (<Task key={t.id} task={t} allTags={tags} handleDelete={handleDeleteTask} allPriorities={priorities}/>))}
             </div>
         </div>
     </div>

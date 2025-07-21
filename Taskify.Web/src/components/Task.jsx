@@ -2,19 +2,23 @@ import ButtonTaskDelete from './ButtonTaskDelete';
 
 import { tagsDeleteTag } from '../services/apiTags';
 import { useEffect, useState } from 'react';
-import { tasksUpdateTags } from '../services/apiTasks';
+import { tasksUpdatePriority, tasksUpdateTags } from '../services/apiTasks';
+
+import NewPriority from './NewPriority';
 
 import NewTag from './NewTag';
 
-function Task({ task, allTags, handleDelete}) {
+function Task({ task, allTags, handleDelete, allPriorities}) {
 
   const [tags, setTags] = useState(task.tags);
   const [usableTags, setUsableTags] = useState(allTags.filter(t => !task.tags.some(tag => tag.id === t.id)));
-
+  
+  const [priority, setPriority] = useState(task.priority);
 
   useEffect(() => { }, [tags]);
 
   const date = new Date(task.dueDate);
+
   const colors = {
     red: "bg-red-200 text-red-800",
     orange: "bg-orange-200 text-orange-800",
@@ -44,18 +48,21 @@ function Task({ task, allTags, handleDelete}) {
     setTags(updatedTags);
     setUsableTags(usableTags.filter(t => t.id !== newTag.id));
   }
+  const setNewPriority = async (priority) => {
+    const result = await tasksUpdatePriority(task.id, priority.id);
+
+    setPriority(priority);
+  }
 
   return (
-
-    <div className={`relative flex flex-col w-96 h-72 justify-around ${colors[task.priority.backgroundClass]} rounded-xl shadow-lg p-4 m-4`}>
+    <div className={`relative flex flex-col w-96 h-72 justify-around ${colors[priority.backgroundClass]} rounded-xl shadow-lg p-4 m-4`}>
       <div className=" absolute top-2 right-2 z-20" >
         <ButtonTaskDelete task={task} handleDelete={handleDelete} />
       </div>
       <div className="flex justify-between items-center mx-1 -mt-2">
-        <span className={`px-2 py-2 ${priorityColors[task.priority.backgroundClass]} rounded text-sm font-semibold`}>
-          {task.priority.name}
-        </span>
-        <span className={`text-sm font-semibold ${colors[task.priority.backgroundClass]}`}>{`Due: ${formattedDate}`}</span>
+        <NewPriority priorities={allPriorities} currentPriority = {priority} setNewPriority={setNewPriority} whenAction="onDoubleClick" 
+        colors={priorityColors[priority.backgroundClass]}/>
+        <span className={`text-sm font-semibold ${colors[priority.backgroundClass]}`}>{`Due: ${formattedDate}`}</span>
 
       </div>
       <div>

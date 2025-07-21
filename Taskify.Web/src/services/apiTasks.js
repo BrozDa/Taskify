@@ -79,12 +79,12 @@ export const tasksUpdateTags = async(taskId, updatedTags) => {
   }
 
 }
-export const tasksUpdateName = async(taskId, updatedName) => {
+export const tasksUpdatePriority = async(taskId, updatedPriorityId) => {
   const token = localStorage.getItem("token");
   if(!token) throw new Error("No token found");
 
   try{
-    const reply = await axios.patch(`${baseUrl}/${taskId}/tags`,updatedName,{
+    const reply = await axios.patch(`${baseUrl}/${taskId}/priority`,{updatedPriorityId},{
       timeout: 5000,
       headers :{
         Authorization: `Bearer ${token}`

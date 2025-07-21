@@ -118,8 +118,8 @@ namespace Taskify.API.Controllers
 
             return Ok(task.ToDto());
         }
-        [HttpPatch("{taskId}/name")]
-        public async Task<ActionResult<List<TagDto>>> UpdateTaskName(Guid taskId, [FromBody] string updatedName)
+        [HttpPatch("{taskId}/priority")]
+        public async Task<ActionResult<List<TagDto>>> UpdateTaskPriority(Guid taskId, [FromBody] PriorityUpdateDto dto)
         {
             var task = await context.ToDoTasks
                 .Include(t => t.Tags)
@@ -128,7 +128,12 @@ namespace Taskify.API.Controllers
             if (task == null)
                 return NotFound();
 
-            task.Name = updatedName;
+            var priority = await context.Priorities.FirstOrDefaultAsync(p => p.Id == dto.UpdatedPriorityId);
+
+            if (priority == null)
+                return BadRequest("New priority Id not found");
+
+            task.Priority = priority;
 
             await context.SaveChangesAsync();
 

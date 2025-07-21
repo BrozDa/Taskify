@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { tasksAddTask } from '../services/apiTasks';
 
-import NewTaskPriority from './NewTaskPriority';
+import NewPriority from './NewPriority';
 import NewTaskDatePicker from './NewTaskDatePicker';
 import NewTaskText from './NewTaskText';
 import NewTag from './NewTag';
@@ -77,7 +77,7 @@ function NewTask({priorities, tags, addNewTask}) {
     }
     <div className="flex justify-between items-center">
       <span className={`px-2 py-2 bg-blue-400 text-black rounded text-sm font-semibold`}>
-        <NewTaskPriority priorities={priorities} currentPriority = {newPriority} setNewPriority={setNewPriority}/>
+        <NewPriority priorities={priorities} currentPriority = {newPriority} setNewPriority={setNewPriority}/>
       </span>
       <span className={`text-sm font-semibold bg-blue-400 text-black`}>
         <NewTaskDatePicker currentDate={newTaskDueDate} setCurrentDate={setNewTaskDueDate}/>
