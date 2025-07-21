@@ -12,14 +12,14 @@ namespace Taskify.API.Controllers
     public class TagsController(TaskifyDbContext context) : Controller
     {
         [HttpGet("all")]
-        public async Task<List<TagDto>> GetTagsAsync()
+        public async Task<ActionResult<List<TagDto>>> GetTagsAsync()
         {
             var result = await context
                 .Tags
                 .Select(t => new TagDto() { Id=t.Id, Name=t.Name })
                 .ToListAsync();
 
-            return result;
+            return Ok(result);
         }
     }
 }

@@ -2,8 +2,11 @@ import { useEffect, useState, useRef } from "react";
 
 import { prioritiesGetAll } from "../services/apiPriorities";
 import { tagsGetAll } from "../services/apiTags";
+import { tagsDeleteTag } from '../services/apiTags';
+
 import { tasksGetAll } from "../services/apiTasks";
 import { tasksDeleteTask } from "../services/apiTasks";
+
 
 import DashboardMenu from '../components/DashboardMenu';
 import DashboardHeader from '../components/DashboardHeader';
@@ -67,14 +70,15 @@ function Dashboard() {
         setTasks([newTask,...tasks])
     }
     
+    
   return (
     <div className="flex min-h-screen w-screen bg-gray-100">
         <DashboardMenu />
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col">
             <DashboardHeader />
-            <div className="flex flex-shrink-0 flex-wrap justify-start gap-6 p-4">
+            <div className="flex flex-wrap justify-start gap-6 p-4">
                 <NewTask id="a" priorities={priorities} tags={tags} addNewTask={handleAddNewTask}/>
-                {tasks && tasks.map(t => (<Task key={t.id} task={t} handleDelete={handleDeleteTask} />))}
+                {tasks && tasks.map(t => (<Task key={t.id} task={t} allTags={tags} handleDelete={handleDeleteTask}/>))}
             </div>
         </div>
     </div>

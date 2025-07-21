@@ -4,7 +4,7 @@ import { tasksAddTask } from '../services/apiTasks';
 import NewTaskPriority from './NewTaskPriority';
 import NewTaskDatePicker from './NewTaskDatePicker';
 import NewTaskText from './NewTaskText';
-import NewTaskAddTag from './NewTaskAddTag';
+import NewTag from './NewTag';
 import Button from './Button';
 
 function NewTask({priorities, tags, addNewTask}) {
@@ -25,12 +25,15 @@ function NewTask({priorities, tags, addNewTask}) {
     setNewTaskTags([...newTaskTags, newTag])
     setUsableTags(usableTags.filter(t => t.name !== newTag.name));
   }
-  const handleNewTaskName = (value) => {
-    if(value.length === 0) setNewTaskName("New Task Name")
-    else setNewTaskName(value)
+  const handleRemoveTag = (tagId) => {
+    setNewTaskTags(newTaskTags.filter(t => t.id !== tagId));
   }
-  const handleNewTaskDescription = () => {
-    if(newTaskDescription.length === 0) setNewTaskDescription("New Task Description")
+  const handleNewTaskName = (value) => {
+    value.length === 0 ? setNewTaskName("New Task Name") : setNewTaskName(value)
+
+  }
+  const handleNewTaskDescription = (value) => {
+    value.length === 0 ? setNewTaskDescription("New Task Description") : setNewTaskDescription(value);
   }
 
   const handleSubmit = async() => {
@@ -94,14 +97,15 @@ function NewTask({priorities, tags, addNewTask}) {
         <span
           key={t.name}
           className="px-2 py-1 bg-white/80 hover:bg-white/40 rounded-full text-xs font-medium"
+          onDoubleClick={() => handleRemoveTag(t.id)}
         >
           #{t.name}
         </span>
       ))}
-      <NewTaskAddTag tags={usableTags} setNewTag={handleAddTag}/>
+      <NewTag tags={usableTags} setNewTag={handleAddTag}/>
     </div>
     <div className="flex justify-center items-center">
-      <Button text={"Submit"} action={handleSubmit}/>
+      <Button text={"Add new Task"} action={handleSubmit}/>
     </div>
   </div>
 );

@@ -1,8 +1,18 @@
-import React from 'react'
-import clsx from 'clsx';
 import ButtonTaskDelete from './ButtonTaskDelete';
 
-function Task({ task, handleDelete }) {
+import { tagsDeleteTag } from '../services/apiTags';
+import { useEffect, useState } from 'react';
+import { tasksUpdateTags } from '../services/apiTasks';
+
+import NewTag from './NewTag';
+
+function Task({ task, allTags, handleDelete}) {
+
+  const [tags, setTags] = useState(task.tags);
+  const [usableTags, setUsableTags] = useState(allTags.filter(t => !task.tags.some(tag => tag.id === t.id)));
+
+
+  useEffect(() => { }, [tags]);
 
   const date = new Date(task.dueDate);
   const colors = {
@@ -22,9 +32,22 @@ function Task({ task, handleDelete }) {
     dateStyle: 'medium',
   }).format(date);
 
+  const handleDeleteTag = async (tagId) => {
+    const updatedTags = tags.filter(t => t.id !== tagId);
+    const result = await tasksUpdateTags(task.id, updatedTags.map(t => t.id));
+    setTags(updatedTags);
+  }
+  const handleAddTag = async(newTag) => {
+
+    const updatedTags = [...tags,newTag];
+    const result = await tasksUpdateTags(task.id, updatedTags.map(t => t.id))
+    setTags(updatedTags);
+    setUsableTags(usableTags.filter(t => t.id !== newTag.id));
+  }
 
   return (
-    <div className={`relative flex flex-col w-96 justify-around ${colors[task.priority.backgroundClass]} rounded-xl min-h-48 shadow-lg p-4 m-4`}>
+
+    <div className={`relative flex flex-col w-96 h-72 justify-around ${colors[task.priority.backgroundClass]} rounded-xl shadow-lg p-4 m-4`}>
       <div className=" absolute top-2 right-2 z-20" >
         <ButtonTaskDelete task={task} handleDelete={handleDelete} />
       </div>
@@ -37,23 +60,24 @@ function Task({ task, handleDelete }) {
       </div>
       <div>
         <h2 className="text-2xl font-bold">{task.name}</h2>
-
       </div>
       {/* Description */}
-      <div>
-        <p className="text-sm">{task.description}</p>
+      <div className="flex justify-center max-h-12 overflow-y-auto px-1">
+        <p className="text-sm whitespace-normal break-words text-center max-w-full">{task.description}</p>
       </div>
 
       {/* Tags */}
-      <div className="flex flex-wrap gap-2">
-        {task.tags.map((t) => (
+      <div className="flex flex-wrap gap-2 justify-center">
+        {tags.map((t) => (
           <span
             key={t.id}
-            className="px-2 py-0.5 bg-white/80 hover:bg-white/40 rounded-full text-xs font-medium"
+            className="px-2 py-0.5 bg-white/80 hover:bg-white/40 rounded-full text-xs font-medium "
+            onDoubleClick={() => handleDeleteTag(t.id)}
           >
             #{t.name}
           </span>
         ))}
+        <NewTag tags={usableTags} setNewTag={handleAddTag}/>
       </div>
     </div>
   );

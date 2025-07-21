@@ -44,7 +44,8 @@ export const tasksDeleteTask = async(taskId) => {
   if(!token) throw new Error("No token found");
 
   try{
-    const reply = await axios.delete(`${baseUrl}/${taskId}`,{
+    const reply = await axios.delete(`${baseUrl}/${taskId}`,
+      {
       timeout: 5000,
       headers :{
         Authorization: `Bearer ${token}`
@@ -57,4 +58,44 @@ export const tasksDeleteTask = async(taskId) => {
       //do stuff
     }
   }
+}
+export const tasksUpdateTags = async(taskId, updatedTags) => {
+  const token = localStorage.getItem("token");
+  if(!token) throw new Error("No token found");
+
+  try{
+    const reply = await axios.patch(`${baseUrl}/${taskId}/tags`,updatedTags,{
+      timeout: 5000,
+      headers :{
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return reply.data;
+  }
+  catch(error){
+    if(axios.isAxiosError(error)){
+      //do stuff
+    }
+  }
+
+}
+export const tasksUpdateName = async(taskId, updatedName) => {
+  const token = localStorage.getItem("token");
+  if(!token) throw new Error("No token found");
+
+  try{
+    const reply = await axios.patch(`${baseUrl}/${taskId}/tags`,updatedName,{
+      timeout: 5000,
+      headers :{
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return reply.data;
+  }
+  catch(error){
+    if(axios.isAxiosError(error)){
+      //do stuff
+    }
+  }
+
 }

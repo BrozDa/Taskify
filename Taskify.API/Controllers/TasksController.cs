@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Taskify.API.Data;
 using Taskify.API.Models;
 using Taskify.API.Models.Dtos;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Taskify.API.Controllers
 {
@@ -71,6 +72,67 @@ namespace Taskify.API.Controllers
             await context.ToDoTasks.Where(x => x.Id == id).ExecuteDeleteAsync();
 
             return Ok(id);
+        }
+        [HttpPut]
+        public async Task<ActionResult<ToDoTaskDto>> UpdateTask(ToDoTaskDto updated)
+        {
+            var existing = await context.ToDoTasks.FirstOrDefaultAsync(x => x.Id == updated.Id);
+            if (existing is null) { return NotFound(); }
+
+            var dtoTagIds = updated.Tags.Select(t => t.Id).ToList();
+            var existingTags = await context.Tags.Where(t => dtoTagIds.Contains(t.Id)).ToListAsync();
+
+            var existingPriority = await context.Priorities.FindAsync(updated.Priority.Id);
+            if (existingPriority == null) return BadRequest("Invalid priority");
+
+            existing.Name = updated.Name;
+            existing.Description = updated.Description;
+            existing.DueDate = updated.DueDate;
+            existing.PriorityId = existingPriority!.Id;
+            existing.Tags = existingTags;
+
+            await context.SaveChangesAsync();
+
+            return Ok(existing.ToDto());
+
+        }
+        [HttpPatch("{taskId}/tags")]
+        public async Task<ActionResult<List<TagDto>>> UpdateTaskTags(Guid taskId, [FromBody] List<Guid> updatedTagIds)
+        {
+            var task = await context.ToDoTasks
+                .Include(t => t.Tags) 
+                .FirstOrDefaultAsync(t => t.Id == taskId);
+
+            if (task == null)
+                return NotFound();
+
+            var existingTags = await context.Tags
+                .Where(tag => updatedTagIds.Contains(tag.Id))
+                .ToListAsync();
+
+            if (existingTags.Count != updatedTagIds.Count)
+                return BadRequest("One or more tag IDs are invalid.");
+
+            task.Tags = existingTags;
+            await context.SaveChangesAsync();
+
+            return Ok(task.ToDto());
+        }
+        [HttpPatch("{taskId}/name")]
+        public async Task<ActionResult<List<TagDto>>> UpdateTaskName(Guid taskId, [FromBody] string updatedName)
+        {
+            var task = await context.ToDoTasks
+                .Include(t => t.Tags)
+                .FirstOrDefaultAsync(t => t.Id == taskId);
+
+            if (task == null)
+                return NotFound();
+
+            task.Name = updatedName;
+
+            await context.SaveChangesAsync();
+
+            return Ok(task.ToDto());
         }
     }
 }
