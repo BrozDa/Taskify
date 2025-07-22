@@ -2,19 +2,19 @@ import ButtonTaskDelete from './ButtonTaskDelete';
 
 import { tagsDeleteTag } from '../services/apiTags';
 import { useEffect, useState } from 'react';
-import { tasksUpdatePriority, tasksUpdateTags } from '../services/apiTasks';
+import { tasksUpdatePriority, tasksUpdateTags, tasksUpdateName , tasksUpdateDescription} from '../services/apiTasks';
 
 import NewPriority from './NewPriority';
-
+import TaskText from './TaskText';
 import NewTag from './NewTag';
 
 function Task({ task, allTags, handleDelete, allPriorities}) {
 
   const [tags, setTags] = useState(task.tags);
   const [usableTags, setUsableTags] = useState(allTags.filter(t => !task.tags.some(tag => tag.id === t.id)));
-  
   const [priority, setPriority] = useState(task.priority);
-
+  const [name, setName] = useState(task.name);
+  const [description, setDescription] = useState(task.description);
   useEffect(() => { }, [tags]);
 
   const date = new Date(task.dueDate);
@@ -50,8 +50,15 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
   }
   const setNewPriority = async (priority) => {
     const result = await tasksUpdatePriority(task.id, priority.id);
-
     setPriority(priority);
+  }
+  const handleUpdateName = async(text) => {
+    const result = await tasksUpdateName(task.id, text);
+    setName(text);
+  }
+  const handleUpdateDescription = async(text) => {
+    const result = await tasksUpdateDescription(task.id, text);
+    setDescription(text);
   }
 
   return (
@@ -65,13 +72,8 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
         <span className={`text-sm font-semibold ${colors[priority.backgroundClass]}`}>{`Due: ${formattedDate}`}</span>
 
       </div>
-      <div>
-        <h2 className="text-2xl font-bold">{task.name}</h2>
-      </div>
-      {/* Description */}
-      <div className="flex justify-center max-h-12 overflow-y-auto px-1">
-        <p className="text-sm whitespace-normal break-words text-center max-w-full">{task.description}</p>
-      </div>
+      <TaskText variant={"name"} text={name} setText={handleUpdateName}/>
+      <TaskText variant={"description"} text={description} setText={handleUpdateDescription} allowEmpty={true}/>
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2 justify-center">

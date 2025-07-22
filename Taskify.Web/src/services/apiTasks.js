@@ -97,5 +97,42 @@ export const tasksUpdatePriority = async(taskId, updatedPriorityId) => {
       //do stuff
     }
   }
+}
+export const tasksUpdateName = async(taskId, newName) => {
+  const token = localStorage.getItem("token");
+  if(!token) throw new Error("No token found");
 
+  try{
+    const reply = await axios.patch(`${baseUrl}/${taskId}/name`,{newName},{
+      timeout: 5000,
+      headers :{
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return reply.data;
+  }
+  catch(error){
+    if(axios.isAxiosError(error)){
+      //do stuff
+    }
+  }
+}
+export const tasksUpdateDescription = async(taskId, newDescription) => {
+  const token = localStorage.getItem("token");
+  if(!token) throw new Error("No token found");
+
+  try{
+    const reply = await axios.patch(`${baseUrl}/${taskId}/description`,{newDescription},{
+      timeout: 5000,
+      headers :{
+        Authorization: `Bearer ${token}`
+      },
+    })
+    return reply.data;
+  }
+  catch(error){
+    if(axios.isAxiosError(error)){
+      //do stuff
+    }
+  }
 }

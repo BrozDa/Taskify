@@ -4,6 +4,7 @@ function NewTag({ tags, setNewTag }) {
 
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [isButtonActive, setButtonActive] = useState(false);
+  
   const handleMouseEnter = () => {
     setDropDownOpen(true);
     setButtonActive(true);

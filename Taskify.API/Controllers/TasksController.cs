@@ -97,7 +97,7 @@ namespace Taskify.API.Controllers
 
         }
         [HttpPatch("{taskId}/tags")]
-        public async Task<ActionResult<List<TagDto>>> UpdateTaskTags(Guid taskId, [FromBody] List<Guid> updatedTagIds)
+        public async Task<ActionResult<List<ToDoTaskDto>>> UpdateTaskTags(Guid taskId, [FromBody] List<Guid> updatedTagIds)
         {
             var task = await context.ToDoTasks
                 .Include(t => t.Tags) 
@@ -119,7 +119,7 @@ namespace Taskify.API.Controllers
             return Ok(task.ToDto());
         }
         [HttpPatch("{taskId}/priority")]
-        public async Task<ActionResult<List<TagDto>>> UpdateTaskPriority(Guid taskId, [FromBody] PriorityUpdateDto dto)
+        public async Task<ActionResult<ToDoTaskDto>> UpdateTaskPriority(Guid taskId, [FromBody] PriorityUpdateDto dto)
         {
             var task = await context.ToDoTasks
                 .Include(t => t.Tags)
@@ -134,6 +134,37 @@ namespace Taskify.API.Controllers
                 return BadRequest("New priority Id not found");
 
             task.Priority = priority;
+
+            await context.SaveChangesAsync();
+
+            return Ok(task.ToDto());
+        }
+        [HttpPatch("{taskId}/name")]
+        public async Task<ActionResult<ToDoTaskDto>> UpdateTaskName(Guid taskId, [FromBody] NameUpdateDto dto)
+        {
+            var task = await context.ToDoTasks
+                .Include(t => t.Tags)
+                .FirstOrDefaultAsync(t => t.Id == taskId);
+
+            if (task == null)
+                return NotFound();
+
+            task.Name = dto.NewName;
+            await context.SaveChangesAsync();
+
+            return Ok(task.ToDto());
+        }
+        [HttpPatch("{taskId}/description")]
+        public async Task<ActionResult<ToDoTaskDto>> UpdateTaskDescription(Guid taskId, [FromBody] DescriptionUpdateDto dto)
+        {
+            var task = await context.ToDoTasks
+                .Include(t => t.Tags)
+                .FirstOrDefaultAsync(t => t.Id == taskId);
+
+            if (task == null)
+                return NotFound();
+
+            task.Description = dto.NewDescription;
 
             await context.SaveChangesAsync();
 

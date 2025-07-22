@@ -3,9 +3,10 @@ import { tasksAddTask } from '../services/apiTasks';
 
 import NewPriority from './NewPriority';
 import NewTaskDatePicker from './NewTaskDatePicker';
-import NewTaskText from './NewTaskText';
+import TaskText from './TaskText';
 import NewTag from './NewTag';
 import Button from './Button';
+import TaskName from './TaskText';
 
 function NewTask({priorities, tags, addNewTask}) {
 
@@ -83,13 +84,8 @@ function NewTask({priorities, tags, addNewTask}) {
         <NewTaskDatePicker currentDate={newTaskDueDate} setCurrentDate={setNewTaskDueDate}/>
       </span>
     </div>
-    <div>
-      <NewTaskText currentText={newTaskName} setCurrentText={handleNewTaskName}/>
-    </div>
-    {/* Description */}
-    <div>
-      <NewTaskText currentText={newTaskDescription} setCurrentText={handleNewTaskDescription}/>
-    </div>
+      <TaskText text={newTaskName} setText={handleNewTaskName} newTask={true}/>
+      <TaskText variant={"description"} text={newTaskDescription} setText={handleNewTaskDescription} newTask={true} allowEmpty={true}/>
 
     {/* Tags */}
     <div className="flex flex-wrap items-center justify-center gap-2">
