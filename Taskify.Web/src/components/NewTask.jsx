@@ -47,8 +47,9 @@ function NewTask({priorities, tags, addNewTask}) {
       tags: newTaskTags
     }
     const response = await tasksAddTask(newTask);
-    if(errorMsg) setErrorMsg(null);
-    addNewTask(response);
+    if(errorMsg) 
+      setErrorMsg(null);
+    
 
   }
   const isNewTaskValid = () => {

@@ -23,6 +23,10 @@ function TaskPriority({ priorities, currentPriority, setNewPriority, whenAction=
       onMouseLeave:handleClose
     };
   
+    const handleClick = (priority) => {
+      setNewPriority(priority);
+      setDropDownOpen(false);
+    }
 
   
   return (
@@ -43,7 +47,7 @@ function TaskPriority({ priorities, currentPriority, setNewPriority, whenAction=
             <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDefaultButton">
               {priorities.map(p => (
                 <li key={p.id}>
-                  <span className="block px-2 py-1 hover:bg-gray-100 cursor-pointer" onClick={() => setNewPriority(p)}>
+                  <span className="block px-2 py-1 hover:bg-gray-100 cursor-pointer" onClick={() => handleClick(p)}>
                     {p.name}</span>
                 </li>
               ))}

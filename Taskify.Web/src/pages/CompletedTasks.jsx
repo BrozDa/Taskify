@@ -9,6 +9,7 @@ import { tasksGetCompleted } from "../services/apiTasks";
 import DashboardMenu from '../components/DashboardMenu';
 import DashboardHeader from '../components/DashboardHeader';
 import CompletedTask from "../components/CompletedTask";
+import Loading from "../components/Loading";
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
@@ -20,10 +21,25 @@ function Dashboard() {
     const hasFetchedPriorities = useRef(false);
     const hasFetchedTags = useRef(false);
 
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        getCompletedTasks();
-        getPriorities();
-        getTags();
+        const fetchData = async() => {
+            try{
+                await getCompletedTasks();
+                await getPriorities();
+                await getTags();
+            }
+            catch (error){
+                console.error(error);
+                setError("Unexpected error while fetching data");
+            }
+            finally{
+                setLoading(false);
+            }  
+        };
+        fetchData();
     },[])
 
     const getCompletedTasks = async() => {
@@ -63,13 +79,25 @@ function Dashboard() {
         <DashboardMenu />
         <div className="flex flex-col">
             <DashboardHeader />
-            <div className="flex flex-wrap justify-start gap-6 p-4">
+            {loading 
+            ?
+            <Loading/>
+            :
+            <div className="flex flex-wrap justify-start items-center gap-6 p-4">
+                {error
+                ?
+                <div>
+                    <p>{error}</p>
+                </div>
+                :
+                <>
                 {tasks && tasks.map(t => (<CompletedTask key={t.id} task={t}/>))}
+                </>
+                }  
             </div>
+            }
         </div>
     </div>
-    
-    
   )
 }
 

@@ -20,7 +20,7 @@ function DashboardHeader() {
 
 
   return (
-    <div className="flex justify-center items-center h-16 bg-white border-b border-gray-200">
+    <div className="flex justify-center items-center h-16 w-screen bg-white border-b border-gray-200">
             <span className="text-black text-2xl font-bold uppercase ">
               {`Welcome ${username ? username : "Unknown"}`}
             </span>
