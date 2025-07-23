@@ -18,7 +18,7 @@ function CompletedTask({task}) {
   }).format(new Date(task.dueDate));
 
   return (
-    <div className={`relative flex flex-col w-96 h-72 justify-around ${colors[task.priority.backgroundClass]} rounded-xl shadow-lg p-4 m-4`}>
+    <div className={`flex flex-1 flex-col max-w-xl justify-around ${colors[task.priority.backgroundClass]} text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
       <div className="flex justify-between items-center mx-1 -mt-2">
         {/*Priority*/}
         <span

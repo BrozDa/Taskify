@@ -6,7 +6,7 @@ import {
     tasksGetPending,
     tasksDeleteTask,
     tasksCompleteTask
-}from "../services/apiTasks";
+} from "../services/apiTasks";
 
 import DashboardMenu from '../components/DashboardMenu';
 import DashboardHeader from '../components/DashboardHeader';
@@ -45,6 +45,8 @@ function Dashboard() {
         fetchData();
     }, [])
 
+    useEffect(() => { }, [tasks]);
+
     const handleDeleteTask = async (taskId) => {
         await tasksDeleteTask(taskId);
         setTasks(tasks.filter(t => t.id !== taskId));
@@ -79,21 +81,24 @@ function Dashboard() {
         const fetchedTags = await tagsGetAll();
         setTags(fetchedTags);
     }
+    const handleSetTask = (newTask) => {
+        setTasks([newTask, ...tasks]);
+    }
 
-   
+
 
     return (
-        <div className="flex  min-h-screen bg-gray-100">
+        <div className="flex min-h-screen w-screen bg-gray-100">
             <div className="w-52 bg-gray-800 flex flex-shrink-0 justify-center">
                 <DashboardMenu />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col flex-1">
                 <DashboardHeader />
                 {loading
                     ?
                     <Loading />
                     :
-                    <div className="flex flex-wrap justify-start items-center gap-6 p-4">
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 p-4">
                         {error
                             ?
                             <div>
@@ -101,7 +106,7 @@ function Dashboard() {
                             </div>
                             :
                             <>
-                                <NewTask id="newTask" priorities={priorities} tags={tags}  />
+                                <NewTask id="newTask" priorities={priorities} tags={tags} addNewTask={handleSetTask} />
                                 {tasks && tasks.map(t => (<Task key={t.id} task={t} allTags={tags} allPriorities={priorities} handleDelete={handleDeleteTask} handleComplete={handleCompleteTask} />))}
                             </>
                         }

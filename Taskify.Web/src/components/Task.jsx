@@ -73,12 +73,12 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
   }
 
   return (
-    <div className={`relative flex flex-col w-96 h-72 justify-around ${colors[priority.backgroundClass]} rounded-xl shadow-lg p-4 m-4`}>
+    <div className={`flex flex-1 flex-col max-w-xl justify-around ${colors[priority.backgroundClass]} text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
       <div className=" absolute top-2 right-2 z-20" >
         <ButtonTaskDelete task={task} handleDelete={() => handleDelete(task.id)} />
       </div>
       <div className="flex justify-between items-center mx-1 -mt-2">
-        {console.log(task)}
+
         <TaskPriority priorities={allPriorities} currentPriority = {priority} setNewPriority={setNewPriority} whenAction="onDoubleClick" 
         colors={priorityColors[priority.backgroundClass]}/>
 

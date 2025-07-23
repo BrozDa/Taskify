@@ -49,8 +49,8 @@ function NewTask({priorities, tags, addNewTask}) {
     const response = await tasksAddTask(newTask);
     if(errorMsg) 
       setErrorMsg(null);
-    
-
+    console.log(response);
+    addNewTask(response);
   }
   const isNewTaskValid = () => {
     let error = "";
@@ -71,7 +71,7 @@ function NewTask({priorities, tags, addNewTask}) {
     return true;
   }
   return (
-  <div className={`flex-col w-96 justify-around bg-blue-400 text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
+  <div className={`flex flex-1 flex-col max-w-xl justify-around bg-blue-400 text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
     {errorMsg && 
       <div>
         <span className="font-semibold text-red-800">{errorMsg}</span>
