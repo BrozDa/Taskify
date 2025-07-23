@@ -1,12 +1,10 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Unicode;
 using Taskify.API.Data;
 using Taskify.API.Services;
+using Taskify.API.Services.Interfaces;
 
 namespace Taskify.API
 {
@@ -24,7 +22,7 @@ namespace Taskify.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<SeedService, SeedService>();
+            builder.Services.AddScoped<ISeedService, SeedService>();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -48,7 +46,7 @@ namespace Taskify.API
             using var scope = app.Services.CreateScope();
             {
                 var services = scope.ServiceProvider;
-                var seeder = services.GetRequiredService<SeedService>();
+                var seeder = services.GetRequiredService<ISeedService>();
                 await seeder.InsertSeedData();
             }
 

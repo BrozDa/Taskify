@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 using Taskify.API.Models;
 using Taskify.API.Models.Dtos;
-using Taskify.API.Services;
+using Taskify.API.Services.Interfaces;
 
 namespace Taskify.API.Controllers
 {

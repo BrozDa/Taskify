@@ -7,6 +7,7 @@ using System.Text;
 using Taskify.API.Data;
 using Taskify.API.Models;
 using Taskify.API.Models.Dtos;
+using Taskify.API.Services.Interfaces;
 
 namespace Taskify.API.Services
 {

@@ -16,21 +16,18 @@ namespace Taskify.API.Controllers
         [HttpGet("pending")]
         public async Task<ActionResult<List<ToDoTaskDto>>> GetPendingForUser()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
 
             var result = await context.ToDoTasks
-                .Where(u => u.UserId.ToString() == userId)
-                .Where(c => !c.IsCompleted)
-                .Select(t => new ToDoTaskDto()
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    Description = t.Description,
-                    DueDate = t.DueDate,
-                    Priority = t.Priority.ToDto(),
-                    Tags = t.Tags.Select(t => t.ToDto()).ToList(),
-                })
-                .OrderBy(p => p.DueDate)
+                .Where(t => t.UserId == userId)
+                .Where(t => !t.IsCompleted)
+                .Include(t => t.Priority)
+                .Include(t=> t.Tags)
+                .OrderBy(t => t.DueDate)
+                .Select(t => t.ToDto())
                 .ToListAsync();
 
             return Ok(result);
@@ -38,21 +35,18 @@ namespace Taskify.API.Controllers
         [HttpGet("completed")]
         public async Task<ActionResult<List<ToDoTaskDto>>> GetCompletedForUser()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
 
             var result = await context.ToDoTasks
-                .Where(u => u.UserId.ToString() == userId)
-                .Where(c => c.IsCompleted)
-                .Select(t => new ToDoTaskDto()
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    Description = t.Description,
-                    DueDate = t.DueDate,
-                    Priority = t.Priority.ToDto(),
-                    Tags = t.Tags.Select(t => t.ToDto()).ToList(),
-                })
-                .OrderBy(p => p.DueDate)
+                .Where(t => t.UserId == userId)
+                .Where(t => t.IsCompleted)
+                .Include(t => t.Priority)
+                .Include(t => t.Tags)
+                .OrderBy(t => t.DueDate)
+                .Select(t => t.ToDto())
                 .ToListAsync();
 
             return Ok(result);
@@ -60,12 +54,17 @@ namespace Taskify.API.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<ToDoTaskDto>> AddTask(ToDoTaskDto toDoTaskDto)
         {
-            
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
+
             var dtoTagIds = toDoTaskDto.Tags.Select(t => t.Id).ToList();
             var existingTags = await context.Tags.Where(t => dtoTagIds.Contains(t.Id)).ToListAsync();
-            var existingPriority = await context.Priorities.FindAsync(toDoTaskDto.Priority.Id);
+            if (dtoTagIds.Count != existingTags.Count) { return BadRequest("Some of provided tags are invalid"); }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var existingPriority = await context.Priorities.FindAsync(toDoTaskDto.Priority.Id);
+            if(existingPriority is null) { return BadRequest("Provided priority not found"); }
 
             ToDoTask newTask = new ToDoTask()
             {
@@ -73,10 +72,10 @@ namespace Taskify.API.Controllers
                 Name = toDoTaskDto.Name,
                 Description = toDoTaskDto.Description,
                 DueDate = toDoTaskDto.DueDate,
-                PriorityId = existingPriority!.Id,
+                PriorityId = existingPriority.Id,
                 Priority = existingPriority,
                 Tags = existingTags,
-                UserId = Guid.Parse(userId!)
+                UserId = userId
             };
             await context.ToDoTasks.AddAsync(newTask);
             await context.SaveChangesAsync();
@@ -86,33 +85,56 @@ namespace Taskify.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Guid?>> DeleteTask(Guid id)
         {
-            if (!await context.ToDoTasks.AnyAsync(t => t.Id == id))
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
             {
-                return NotFound();
+                return Unauthorized();
             }
-            await context.ToDoTasks.Where(x => x.Id == id).ExecuteDeleteAsync();
 
-            return Ok(id);
+            var task = await context.ToDoTasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+
+            if (task == null)
+                return NotFound();
+
+            context.ToDoTasks.Remove(task);
+
+            await context.SaveChangesAsync();
+
+            return NoContent();
         }
         [HttpPatch("{taskId}/complete")]
         public async Task<ActionResult> CompleteTask(Guid taskId)
         {
-            var task = await context.ToDoTasks.FirstOrDefaultAsync(t => t.Id == taskId);
-            if(task is null) { return  NotFound(); }
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
+
+            var task = await context.ToDoTasks.FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
+
+            if (task == null)
+                return NotFound();
+
+            if (task.IsCompleted)
+                return BadRequest("Task is already completed.");
 
             task.IsCompleted = true;
 
             await context.SaveChangesAsync();
 
-            return Ok();
+            return NoContent();
 
         }
         [HttpPatch("{taskId}/tags")]
         public async Task<ActionResult<List<ToDoTaskDto>>> UpdateTaskTags(Guid taskId, [FromBody] List<Guid> updatedTagIds)
         {
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
+
             var task = await context.ToDoTasks
                 .Include(t => t.Tags) 
-                .FirstOrDefaultAsync(t => t.Id == taskId);
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
 
             if (task == null)
                 return NotFound();
@@ -132,9 +154,14 @@ namespace Taskify.API.Controllers
         [HttpPatch("{taskId}/priority")]
         public async Task<ActionResult<ToDoTaskDto>> UpdateTaskPriority(Guid taskId, [FromBody] PriorityUpdateDto dto)
         {
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
+
             var task = await context.ToDoTasks
                 .Include(t => t.Tags)
-                .FirstOrDefaultAsync(t => t.Id == taskId);
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
 
             if (task == null)
                 return NotFound();
@@ -153,9 +180,14 @@ namespace Taskify.API.Controllers
         [HttpPatch("{taskId}/name")]
         public async Task<ActionResult<ToDoTaskDto>> UpdateTaskName(Guid taskId, [FromBody] NameUpdateDto dto)
         {
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
+
             var task = await context.ToDoTasks
                 .Include(t => t.Tags)
-                .FirstOrDefaultAsync(t => t.Id == taskId);
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
 
             if (task == null)
                 return NotFound();
@@ -168,9 +200,14 @@ namespace Taskify.API.Controllers
         [HttpPatch("{taskId}/description")]
         public async Task<ActionResult<ToDoTaskDto>> UpdateTaskDescription(Guid taskId, [FromBody] DescriptionUpdateDto dto)
         {
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
+
             var task = await context.ToDoTasks
                 .Include(t => t.Tags)
-                .FirstOrDefaultAsync(t => t.Id == taskId);
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
 
             if (task == null)
                 return NotFound();
@@ -184,9 +221,14 @@ namespace Taskify.API.Controllers
         [HttpPatch("{taskId}/date")]
         public async Task<ActionResult<ToDoTaskDto>> UpdateTaskDate(Guid taskId, [FromBody] DateUpdateDto dto)
         {
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            {
+                return Unauthorized();
+            }
+
             var task = await context.ToDoTasks
                 .Include(t => t.Tags)
-                .FirstOrDefaultAsync(t => t.Id == taskId);
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
 
             if (task == null)
                 return NotFound();

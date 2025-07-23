@@ -11,7 +11,7 @@ namespace Taskify.API.Controllers
     [Route("/api/[controller]")]
     public class TagsController(TaskifyDbContext context) : Controller
     {
-        [HttpGet("all")]
+        [HttpGet("")]
         public async Task<ActionResult<List<TagDto>>> GetTagsAsync()
         {
             var result = await context

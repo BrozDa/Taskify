@@ -7,12 +7,14 @@ export const tasksGetPending = async() => {
   if (!token) throw new Error("No token found");
   
   try{
+    
     const response = await axios.get(`${baseUrl}/pending`,{
       timeout:5000,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response)
     return response.data;
     
   }

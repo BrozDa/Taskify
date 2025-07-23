@@ -11,14 +11,15 @@ namespace Taskify.API.Controllers
     [Authorize]
     public class PrioritiesController(TaskifyDbContext context) : Controller
     {
-        [HttpGet("all")]
-        public async Task<List<PriorityDto>> GetPrioritiesAsync()
+        [HttpGet("")]
+        public async Task<ActionResult<List<PriorityDto>>> GetPrioritiesAsync()
         {
             var result = await context
                 .Priorities
                 .Select(p => new PriorityDto() { Id=p.Id, Name=p.Name, BackgroundClass=p.BackgroundClass})
                 .ToListAsync();
-            return result;
+
+            return Ok(result);
         }
     }
 }

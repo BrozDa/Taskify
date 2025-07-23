@@ -30,8 +30,8 @@ function Dashboard() {
     },[])
 
     const handleDeleteTask = async(taskId) => {
-        const deletedId = await tasksDeleteTask(taskId);
-        setTasks(tasks.filter(t => t.id !== deletedId));
+        await tasksDeleteTask(taskId);
+        setTasks(tasks.filter(t => t.id !== taskId));
 
     }
     const handleCompleteTask = async(taskId) => {
@@ -45,11 +45,14 @@ function Dashboard() {
         //Due to strict mode double fetching
         if (hasFetchedTasks.current) return;
         hasFetchedTasks.current = true;
-
+        
+        
         if(tasks.length === 0){
             const fetchedTasks = await tasksGetPending();
             setTasks(fetchedTasks);
+            
         }
+        
     }
     
     const getPriorities = async() => {
