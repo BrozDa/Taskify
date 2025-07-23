@@ -5,6 +5,7 @@ import { useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Register from './pages/Register';
+import CompletedTasks from "./pages/CompletedTasks"
 
 function App() {
   const { token } = useAuth();
@@ -27,6 +28,11 @@ function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
+        </ProtectedRoute>
+        }/>
+        <Route path="/completed" element={
+          <ProtectedRoute>
+            <CompletedTasks/>
         </ProtectedRoute>
         }/>
 

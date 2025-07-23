@@ -2,14 +2,15 @@ import ButtonTaskDelete from './ButtonTaskDelete';
 
 import { tagsDeleteTag } from '../services/apiTags';
 import { useEffect, useState } from 'react';
-import { tasksUpdatePriority, tasksUpdateTags, tasksUpdateName , tasksUpdateDescription, tasksUpdateDate} from '../services/apiTasks';
+import { tasksUpdatePriority, tasksUpdateTags, tasksUpdateName , tasksUpdateDescription, tasksUpdateDate, tasksCompleteTask} from '../services/apiTasks';
 
 import NewPriority from './NewPriority';
 import TaskText from './TaskText';
 import TaskTag from './TaskTag';
 import TaskDate from './TaskDate';
+import Button from './Button';
 
-function Task({ task, allTags, handleDelete, allPriorities}) {
+function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
 
   const [tags, setTags] = useState(task.tags);
   const [usableTags, setUsableTags] = useState(allTags.filter(t => !task.tags.some(tag => tag.id === t.id)));
@@ -17,6 +18,7 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
   const [name, setName] = useState(task.name);
   const [description, setDescription] = useState(task.description);
   const [dueDate, setDueDate] = useState(task.dueDate);
+
   useEffect(() => { }, [tags]);
 
   const date = new Date(task.dueDate);
@@ -70,7 +72,7 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
   return (
     <div className={`relative flex flex-col w-96 h-72 justify-around ${colors[priority.backgroundClass]} rounded-xl shadow-lg p-4 m-4`}>
       <div className=" absolute top-2 right-2 z-20" >
-        <ButtonTaskDelete task={task} handleDelete={handleDelete} />
+        <ButtonTaskDelete task={task} handleDelete={() => handleDelete(task.id)} />
       </div>
       <div className="flex justify-between items-center mx-1 -mt-2">
         <NewPriority priorities={allPriorities} currentPriority = {priority} setNewPriority={setNewPriority} whenAction="onDoubleClick" 
@@ -95,6 +97,10 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
         ))}
         <TaskTag tags={usableTags} setNewTag={handleAddTag}/>
       </div>
+      <Button 
+        text={"Complete"} 
+        action={()=>handleComplete(task.id)} 
+        colors={priorityColors[priority.backgroundClass]}/>
     </div>
   );
 }

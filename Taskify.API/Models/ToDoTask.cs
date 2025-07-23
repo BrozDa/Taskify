@@ -17,6 +17,7 @@ namespace Taskify.API.Models
         public Guid UserId { get; set; }
         public User User { get; set; } = null!;
 
+        public bool IsCompleted { get; set; }
         public ToDoTaskDto ToDto()
         {
             return new ToDoTaskDto()

@@ -54,7 +54,8 @@ namespace Taskify.API.Services
                     Priority = priorityHigh,
                     Tags = new List<Tag> { tagWork, tagUrgent },
                     UserId = adminUser!.Id,
-                    User = adminUser!
+                    User = adminUser!,
+                    IsCompleted=true
                 },
                 new ToDoTask
                 {
@@ -66,7 +67,8 @@ namespace Taskify.API.Services
                     Priority = priorityMedium,
                     Tags = new List<Tag> { tagShopping, tagPersonal },
                     UserId = adminUser!.Id,
-                    User = adminUser!
+                    User = adminUser!,
+                    IsCompleted=true
                 },
                 new ToDoTask
                 {
@@ -78,7 +80,8 @@ namespace Taskify.API.Services
                     Priority = priorityLow,
                     Tags = new List<Tag> { tagFamily, tagPersonal },
                     UserId = adminUser!.Id,
-                    User = adminUser!
+                    User = adminUser!,
+                    IsCompleted=true
                 },
                 new ToDoTask
                 {
@@ -90,7 +93,8 @@ namespace Taskify.API.Services
                     Priority = priorityMedium,
                     Tags = new List<Tag> { tagFitness, tagHealth },
                     UserId = adminUser!.Id,
-                    User = adminUser!
+                    User = adminUser!,
+                    IsCompleted=false
                 },
                 new ToDoTask
                 {
@@ -102,7 +106,8 @@ namespace Taskify.API.Services
                     Priority = priorityLow,
                     Tags = new List<Tag> { tagTravel, tagIdeas },
                     UserId = adminUser!.Id,
-                    User = adminUser!
+                    User = adminUser!,
+                    IsCompleted=false
                 },
 
                 // Potato's Tasks
@@ -116,7 +121,8 @@ namespace Taskify.API.Services
                     Priority = priorityCritical,
                     Tags = new List<Tag> { tagFinance, tagUrgent },
                     UserId = standardUser!.Id,
-                    User = standardUser!
+                    User = standardUser!,
+                    IsCompleted=true
                 },
                 new ToDoTask
                 {
@@ -128,7 +134,8 @@ namespace Taskify.API.Services
                     Priority = priorityMedium,
                     Tags = new List<Tag> { tagStudy, tagIdeas },
                     UserId = standardUser!.Id,
-                    User = standardUser!
+                    User = standardUser!,
+                    IsCompleted=true
                 },
                 new ToDoTask
                 {
@@ -140,7 +147,8 @@ namespace Taskify.API.Services
                     Priority = priorityHigh,
                     Tags = new List<Tag> { tagHome, tagPersonal },
                     UserId = standardUser!.Id,
-                    User = standardUser!
+                    User = standardUser!,
+                    IsCompleted=true
                 },
                 new ToDoTask
                 {
@@ -152,7 +160,8 @@ namespace Taskify.API.Services
                     Priority = priorityHigh,
                     Tags = new List<Tag> { tagWork },
                     UserId = standardUser!.Id,
-                    User = standardUser!
+                    User = standardUser!,
+                    IsCompleted=false
                 },
                 new ToDoTask
                 {
@@ -164,7 +173,8 @@ namespace Taskify.API.Services
                     Priority = priorityMedium,
                     Tags = new List<Tag> { tagHealth },
                     UserId = standardUser!.Id,
-                    User = standardUser!
+                    User = standardUser!,
+                    IsCompleted=false
                 }
             };
 

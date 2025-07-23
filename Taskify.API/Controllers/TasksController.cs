@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System.Security.Claims;
 using Taskify.API.Data;
 using Taskify.API.Models;
 using Taskify.API.Models.Dtos;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Taskify.API.Controllers
 {
@@ -15,13 +13,36 @@ namespace Taskify.API.Controllers
     [Authorize]
     public class TasksController(TaskifyDbContext context) : Controller
     {
-        [HttpGet("all")]
-        public async Task<ActionResult<List<ToDoTaskDto>>> GetAllForUser()
+        [HttpGet("pending")]
+        public async Task<ActionResult<List<ToDoTaskDto>>> GetPendingForUser()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = await context.ToDoTasks
                 .Where(u => u.UserId.ToString() == userId)
+                .Where(c => !c.IsCompleted)
+                .Select(t => new ToDoTaskDto()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Description = t.Description,
+                    DueDate = t.DueDate,
+                    Priority = t.Priority.ToDto(),
+                    Tags = t.Tags.Select(t => t.ToDto()).ToList(),
+                })
+                .OrderBy(p => p.DueDate)
+                .ToListAsync();
+
+            return Ok(result);
+        }
+        [HttpGet("completed")]
+        public async Task<ActionResult<List<ToDoTaskDto>>> GetCompletedForUser()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await context.ToDoTasks
+                .Where(u => u.UserId.ToString() == userId)
+                .Where(c => c.IsCompleted)
                 .Select(t => new ToDoTaskDto()
                 {
                     Id = t.Id,
@@ -73,27 +94,17 @@ namespace Taskify.API.Controllers
 
             return Ok(id);
         }
-        [HttpPut]
-        public async Task<ActionResult<ToDoTaskDto>> UpdateTask(ToDoTaskDto updated)
+        [HttpPatch("{taskId}/complete")]
+        public async Task<ActionResult> CompleteTask(Guid taskId)
         {
-            var existing = await context.ToDoTasks.FirstOrDefaultAsync(x => x.Id == updated.Id);
-            if (existing is null) { return NotFound(); }
+            var task = await context.ToDoTasks.FirstOrDefaultAsync(t => t.Id == taskId);
+            if(task is null) { return  NotFound(); }
 
-            var dtoTagIds = updated.Tags.Select(t => t.Id).ToList();
-            var existingTags = await context.Tags.Where(t => dtoTagIds.Contains(t.Id)).ToListAsync();
-
-            var existingPriority = await context.Priorities.FindAsync(updated.Priority.Id);
-            if (existingPriority == null) return BadRequest("Invalid priority");
-
-            existing.Name = updated.Name;
-            existing.Description = updated.Description;
-            existing.DueDate = updated.DueDate;
-            existing.PriorityId = existingPriority!.Id;
-            existing.Tags = existingTags;
+            task.IsCompleted = true;
 
             await context.SaveChangesAsync();
 
-            return Ok(existing.ToDto());
+            return Ok();
 
         }
         [HttpPatch("{taskId}/tags")]

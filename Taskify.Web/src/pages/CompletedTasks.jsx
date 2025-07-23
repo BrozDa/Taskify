@@ -2,17 +2,14 @@ import { useEffect, useState, useRef } from "react";
 
 import { prioritiesGetAll } from "../services/apiPriorities";
 import { tagsGetAll } from "../services/apiTags";
-import { tagsDeleteTag } from '../services/apiTags';
 
-import { tasksGetPending } from "../services/apiTasks";
-import { tasksDeleteTask } from "../services/apiTasks";
-import { tasksCompleteTask } from "../services/apiTasks";
+import { tasksGetCompleted } from "../services/apiTasks";
 
 
 import DashboardMenu from '../components/DashboardMenu';
 import DashboardHeader from '../components/DashboardHeader';
 import Task from "../components/Task";
-import NewTask from "../components/NewTask";
+import CompletedTask from "../components/CompletedTask";
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
@@ -25,34 +22,22 @@ function Dashboard() {
     const hasFetchedTags = useRef(false);
 
     useEffect(() => {
-        getPendingTasks();
+        getCompletedTasks();
         getPriorities();
         getTags();
     },[])
 
-    const handleDeleteTask = async(taskId) => {
-        const deletedId = await tasksDeleteTask(taskId);
-        setTasks(tasks.filter(t => t.id !== deletedId));
-
-    }
-    const handleCompleteTask = async(taskId) => {
-        await tasksCompleteTask(taskId);
-        setTasks(tasks.filter(t => t.id !== taskId));
-    }
-
-    useEffect(()=>{},[tasks]);
-    
-    const getPendingTasks = async() => {
+    const getCompletedTasks = async() => {
         //Due to strict mode double fetching
         if (hasFetchedTasks.current) return;
         hasFetchedTasks.current = true;
 
         if(tasks.length === 0){
-            const fetchedTasks = await tasksGetPending();
+            const fetchedTasks = await tasksGetCompleted();
             setTasks(fetchedTasks);
         }
     }
-    
+
     const getPriorities = async() => {
         //Due to strict mode double fetching
         if (hasFetchedPriorities.current) return;
@@ -73,11 +58,6 @@ function Dashboard() {
             setTags(fetchedTags);
         }
     }
-    const handleAddNewTask = (newTask) =>
-    {
-        setTasks([newTask,...tasks])
-    }
-    
     
   return (
     <div className="flex min-h-screen w-screen bg-gray-100">
@@ -85,8 +65,7 @@ function Dashboard() {
         <div className="flex flex-col">
             <DashboardHeader />
             <div className="flex flex-wrap justify-start gap-6 p-4">
-                <NewTask id="a" priorities={priorities} tags={tags} addNewTask={handleAddNewTask}/>
-                {tasks && tasks.map(t => (<Task key={t.id} task={t} allTags={tags}  allPriorities={priorities} handleDelete={handleDeleteTask} handleComplete={handleCompleteTask}/>))}
+                {tasks && tasks.map(t => (<CompletedTask key={t.id} task={t}/>))}
             </div>
         </div>
     </div>
