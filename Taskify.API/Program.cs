@@ -23,6 +23,7 @@ namespace Taskify.API
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ISeedService, SeedService>();
+            builder.Services.AddScoped<ITaskService, TasksService>();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -50,9 +51,6 @@ namespace Taskify.API
                 await seeder.InsertSeedData();
             }
 
-
-
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 
