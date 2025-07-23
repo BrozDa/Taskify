@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-function NewTag({ tags, setNewTag }) {
+function TaskTag({ tags, setNewTag }) {
 
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [isButtonActive, setButtonActive] = useState(false);
@@ -29,8 +29,8 @@ function NewTag({ tags, setNewTag }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 6v12M6 12h12" />
         </svg>
       </span>
-      {dropDownOpen &&
-        <div id="dropdown" className="absolute -left-10 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-24 dark:bg-gray-700 ">
+      {dropDownOpen && 
+        <div id="dropdown" className="absolute -left-10 z-30 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-24 dark:bg-gray-700 ">
           <ul className="py-0.5 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
             {tags.map(t => (
               <li key={t.id}>
@@ -45,4 +45,4 @@ function NewTag({ tags, setNewTag }) {
 
 }
 
-export default NewTag
+export default TaskTag

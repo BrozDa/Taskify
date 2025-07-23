@@ -2,11 +2,12 @@ import ButtonTaskDelete from './ButtonTaskDelete';
 
 import { tagsDeleteTag } from '../services/apiTags';
 import { useEffect, useState } from 'react';
-import { tasksUpdatePriority, tasksUpdateTags, tasksUpdateName , tasksUpdateDescription} from '../services/apiTasks';
+import { tasksUpdatePriority, tasksUpdateTags, tasksUpdateName , tasksUpdateDescription, tasksUpdateDate} from '../services/apiTasks';
 
 import NewPriority from './NewPriority';
 import TaskText from './TaskText';
-import NewTag from './NewTag';
+import TaskTag from './TaskTag';
+import TaskDate from './TaskDate';
 
 function Task({ task, allTags, handleDelete, allPriorities}) {
 
@@ -15,6 +16,7 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
   const [priority, setPriority] = useState(task.priority);
   const [name, setName] = useState(task.name);
   const [description, setDescription] = useState(task.description);
+  const [dueDate, setDueDate] = useState(task.dueDate);
   useEffect(() => { }, [tags]);
 
   const date = new Date(task.dueDate);
@@ -60,6 +62,10 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
     const result = await tasksUpdateDescription(task.id, text);
     setDescription(text);
   }
+  const handleUpdateDate = async(text) => {
+    const result = await tasksUpdateDate(task.id, text);
+    setDueDate(text);
+  }
 
   return (
     <div className={`relative flex flex-col w-96 h-72 justify-around ${colors[priority.backgroundClass]} rounded-xl shadow-lg p-4 m-4`}>
@@ -69,7 +75,8 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
       <div className="flex justify-between items-center mx-1 -mt-2">
         <NewPriority priorities={allPriorities} currentPriority = {priority} setNewPriority={setNewPriority} whenAction="onDoubleClick" 
         colors={priorityColors[priority.backgroundClass]}/>
-        <span className={`text-sm font-semibold ${colors[priority.backgroundClass]}`}>{`Due: ${formattedDate}`}</span>
+
+        <TaskDate currentDate={new Date(dueDate)} setCurrentDate={handleUpdateDate} colors={colors[priority.backgroundClass]}/>
 
       </div>
       <TaskText variant={"name"} text={name} setText={handleUpdateName}/>
@@ -86,7 +93,7 @@ function Task({ task, allTags, handleDelete, allPriorities}) {
             #{t.name}
           </span>
         ))}
-        <NewTag tags={usableTags} setNewTag={handleAddTag}/>
+        <TaskTag tags={usableTags} setNewTag={handleAddTag}/>
       </div>
     </div>
   );

@@ -170,5 +170,21 @@ namespace Taskify.API.Controllers
 
             return Ok(task.ToDto());
         }
+        [HttpPatch("{taskId}/date")]
+        public async Task<ActionResult<ToDoTaskDto>> UpdateTaskDate(Guid taskId, [FromBody] DateUpdateDto dto)
+        {
+            var task = await context.ToDoTasks
+                .Include(t => t.Tags)
+                .FirstOrDefaultAsync(t => t.Id == taskId);
+
+            if (task == null)
+                return NotFound();
+
+            task.DueDate = dto.NewDate;
+
+            await context.SaveChangesAsync();
+
+            return Ok(task.ToDto());
+        }
     }
 }

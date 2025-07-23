@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { tasksAddTask } from '../services/apiTasks';
 
 import NewPriority from './NewPriority';
-import NewTaskDatePicker from './NewTaskDatePicker';
+import NewTaskDatePicker from './TaskDate';
 import TaskText from './TaskText';
-import NewTag from './NewTag';
+import TaskTag from './TaskTag';
 import Button from './Button';
-import TaskName from './TaskText';
+import TaskDate from './TaskDate';
 
 function NewTask({priorities, tags, addNewTask}) {
 
@@ -81,7 +81,7 @@ function NewTask({priorities, tags, addNewTask}) {
         <NewPriority priorities={priorities} currentPriority = {newPriority} setNewPriority={setNewPriority}/>
       </span>
       <span className={`text-sm font-semibold bg-blue-400 text-black`}>
-        <NewTaskDatePicker currentDate={newTaskDueDate} setCurrentDate={setNewTaskDueDate}/>
+        <TaskDate currentDate={newTaskDueDate} setCurrentDate={setNewTaskDueDate} newTask={true}/>
       </span>
     </div>
       <TaskText text={newTaskName} setText={handleNewTaskName} newTask={true}/>
@@ -98,7 +98,7 @@ function NewTask({priorities, tags, addNewTask}) {
           #{t.name}
         </span>
       ))}
-      <NewTag tags={usableTags} setNewTag={handleAddTag}/>
+      <TaskTag tags={usableTags} setNewTag={handleAddTag}/>
     </div>
     <div className="flex justify-center items-center">
       <Button text={"Add new Task"} action={handleSubmit}/>
