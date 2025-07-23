@@ -1,10 +1,13 @@
 import ButtonTaskDelete from './ButtonTaskDelete';
 
-import { tagsDeleteTag } from '../services/apiTags';
 import { useEffect, useState } from 'react';
-import { tasksUpdatePriority, tasksUpdateTags, tasksUpdateName , tasksUpdateDescription, tasksUpdateDate, tasksCompleteTask} from '../services/apiTasks';
+import { tasksUpdatePriority, 
+  tasksUpdateTags, tasksUpdateName , 
+  tasksUpdateDescription, 
+  tasksUpdateDate, 
+       } from '../services/apiTasks';
 
-import NewPriority from './NewPriority';
+import TaskPriority from './TaskPriority';
 import TaskText from './TaskText';
 import TaskTag from './TaskTag';
 import TaskDate from './TaskDate';
@@ -75,7 +78,7 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
         <ButtonTaskDelete task={task} handleDelete={() => handleDelete(task.id)} />
       </div>
       <div className="flex justify-between items-center mx-1 -mt-2">
-        <NewPriority priorities={allPriorities} currentPriority = {priority} setNewPriority={setNewPriority} whenAction="onDoubleClick" 
+        <TaskPriority priorities={allPriorities} currentPriority = {priority} setNewPriority={setNewPriority} whenAction="onDoubleClick" 
         colors={priorityColors[priority.backgroundClass]}/>
 
         <TaskDate currentDate={new Date(dueDate)} setCurrentDate={handleUpdateDate} colors={colors[priority.backgroundClass]}/>

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { tasksAddTask } from '../services/apiTasks';
 
-import NewPriority from './NewPriority';
-import NewTaskDatePicker from './TaskDate';
+import TaskPriority from './TaskPriority';
 import TaskText from './TaskText';
 import TaskTag from './TaskTag';
 import Button from './Button';
@@ -48,6 +47,7 @@ function NewTask({priorities, tags, addNewTask}) {
       tags: newTaskTags
     }
     const response = await tasksAddTask(newTask);
+    if(errorMsg) setErrorMsg(null);
     addNewTask(response);
 
   }
@@ -73,12 +73,12 @@ function NewTask({priorities, tags, addNewTask}) {
   <div className={`flex-col w-96 justify-around bg-blue-400 text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
     {errorMsg && 
       <div>
-        <span>{errorMsg}</span>
+        <span className="font-semibold text-red-800">{errorMsg}</span>
       </div>
     }
     <div className="flex justify-between items-center">
       <span className={`px-2 py-2 bg-blue-400 text-black rounded text-sm font-semibold`}>
-        <NewPriority priorities={priorities} currentPriority = {newPriority} setNewPriority={setNewPriority}/>
+        <TaskPriority priorities={priorities} currentPriority = {newPriority} setNewPriority={setNewPriority}/>
       </span>
       <span className={`text-sm font-semibold bg-blue-400 text-black`}>
         <TaskDate currentDate={newTaskDueDate} setCurrentDate={setNewTaskDueDate} newTask={true}/>

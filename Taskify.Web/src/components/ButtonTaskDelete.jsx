@@ -1,5 +1,3 @@
-import React from 'react'
-
 function ButtonTaskDelete({task, handleDelete}) {
   return (
     <button className="w-4 h-4 m-0 p-0 rounded-full flex items-center justify-center

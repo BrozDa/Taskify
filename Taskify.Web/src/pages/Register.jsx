@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import LoginInput from '../components/LoginInput';
 import Button from '../components/Button';
 import {authRegistration} from "../services/apiAuth";
@@ -32,9 +32,9 @@ function Register() {
     }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <h2 className="mb-6 text-2xl font-semibold text-center text-gray-800 dark:text-white">
+    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-600">
+      <div className="flex-1  justify-around items-center w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md">
+        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400">
           Create new account
         </h2>
         {error && <p className="text-red-500 mb-3">{error}</p>}

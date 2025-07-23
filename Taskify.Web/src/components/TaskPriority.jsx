@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function NewPriority({ priorities, currentPriority, setNewPriority, whenAction="onHover", colors="bg-blue-700 hover:bg-blue-800 text-white"}) {
+function TaskPriority({ priorities, currentPriority, setNewPriority, whenAction="onHover", colors="bg-blue-700 hover:bg-blue-800 text-white"}) {
 
   const [dropDownOpen, setDropDownOpen] = useState(false);
 
@@ -54,4 +54,4 @@ function NewPriority({ priorities, currentPriority, setNewPriority, whenAction="
   )
 }
 
-export default NewPriority
+export default TaskPriority

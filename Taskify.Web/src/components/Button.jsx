@@ -1,5 +1,3 @@
-import clsx from 'clsx'
-
 function Button({type,text,action, colors="bg-blue-600 hover:bg-blue-700 text-white"}) {
   return (
     <button

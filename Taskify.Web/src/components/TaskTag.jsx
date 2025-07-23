@@ -30,7 +30,7 @@ function TaskTag({ tags, setNewTag }) {
         </svg>
       </span>
       {dropDownOpen && 
-        <div id="dropdown" className="absolute -left-10 z-30 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-24 dark:bg-gray-700 ">
+        <div id="dropdown" className="absolute -left-10 z-30 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-24">
           <ul className="py-0.5 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
             {tags.map(t => (
               <li key={t.id}>

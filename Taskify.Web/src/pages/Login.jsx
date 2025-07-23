@@ -31,15 +31,15 @@ function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center rounded-lg bg-gray-600 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md dark:bg-gray-800">
+    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-600">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md">
 
         {successMessage && (
-        <h2 className="mb-6 text-2xl font-semibold text-center text-green-800 dark:text-white">
+        <h2 className="mb-6 text-2xl font-semibold text-center text-green-400">
           {successMessage}
         </h2>
         )}
-        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400 dark:text-white">
+        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400">
           Sign in to your account
         </h2>
 

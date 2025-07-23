@@ -1,5 +1,3 @@
-import React from 'react'
-
 function CompletedTask({task}) {
 
   const colors = {

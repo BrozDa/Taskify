@@ -8,7 +8,6 @@ import { tasksGetCompleted } from "../services/apiTasks";
 
 import DashboardMenu from '../components/DashboardMenu';
 import DashboardHeader from '../components/DashboardHeader';
-import Task from "../components/Task";
 import CompletedTask from "../components/CompletedTask";
 
 function Dashboard() {
