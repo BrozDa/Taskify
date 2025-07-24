@@ -7,14 +7,15 @@ namespace Taskify.API.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string BackgroundClass { get; set; } = string.Empty;
+
+        public string Color { get; set; } = string.Empty;
 
         [JsonIgnore]
         public List<ToDoTask>? Tasks { get; set; }
 
         public PriorityDto ToDto()
         {
-            return new PriorityDto { Id = Id, Name = Name, BackgroundClass = BackgroundClass };
+            return new PriorityDto { Id = Id, Name = Name, Color = "blue" };
         }
     }
 }

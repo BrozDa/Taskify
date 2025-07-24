@@ -11,10 +11,10 @@ namespace Taskify.API.Services
         {
             if (context.Priorities.Any()) { return; }
 
-            var priorityLow = new Priority() { Name = "Low", BackgroundClass = "green" };
-            var priorityMedium = new Priority() { Name = "Medium", BackgroundClass = "yellow" };
-            var priorityHigh = new Priority() { Name = "High", BackgroundClass = "orange" };
-            var priorityCritical = new Priority() { Name = "Critical", BackgroundClass = "red" };
+            var priorityLow = new Priority() { Name = "Low", Color = "green" };
+            var priorityMedium = new Priority() { Name = "Medium", Color = "yellow"};
+            var priorityHigh = new Priority() { Name = "High", Color = "orange" };
+            var priorityCritical = new Priority() { Name = "Critical", Color = "red" };
 
             await context.Priorities.AddRangeAsync(priorityLow, priorityMedium, priorityHigh, priorityCritical);
             await context.SaveChangesAsync();

@@ -16,7 +16,7 @@ namespace Taskify.API.Controllers
         {
             var result = await context
                 .Priorities
-                .Select(p => new PriorityDto() { Id=p.Id, Name=p.Name, BackgroundClass=p.BackgroundClass})
+                .Select(p => new PriorityDto() { Id=p.Id, Name=p.Name, Color=p.Color})
                 .ToListAsync();
 
             return Ok(result);
