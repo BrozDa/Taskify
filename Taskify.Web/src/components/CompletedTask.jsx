@@ -18,12 +18,12 @@ function CompletedTask({task}) {
   }).format(new Date(task.dueDate));
 
   return (
-    <div className={`flex flex-1 flex-col max-w-xl justify-around ${colors[task.priority.backgroundClass]} text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
+    <div className={`flex flex-1 flex-col max-w-xl justify-around ${colors[task.priority.color]} text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
       <div className="flex justify-between items-center mx-1 -mt-2">
         {/*Priority*/}
         <span
           className={`w-32 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex  items-center justify-center 
-            ${priorityColors[task.priority.backgroundClass]}`}
+            ${priorityColors[task.priority.color]}`}
           type="button"
         >
           {task.priority.name}

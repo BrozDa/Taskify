@@ -76,16 +76,16 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
   }
 
   return (
-    <div className={`relative flex flex-1 flex-col max-w-xl justify-around ${colors[priority.backgroundClass]} text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
+    <div className={`relative flex flex-1 flex-col max-w-xl justify-around ${colors[priority.color]} text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
       <div className=" absolute top-2 right-2 z-20" >
         <ButtonTaskDelete task={task} handleDelete={() => handleDelete(task.id)} />
       </div>
       <div className="flex justify-between items-center mx-1 -mt-2">
 
         <TaskPriority priorities={allPriorities} currentPriority = {priority} setNewPriority={setNewPriority} whenAction="onDoubleClick" 
-        colors={priorityColors[priority.backgroundClass]}/>
+        colors={priorityColors[priority.color]}/>
 
-        <TaskDate currentDate={new Date(dueDate)} setCurrentDate={handleUpdateDate} colors={colors[priority.backgroundClass]}/>
+        <TaskDate currentDate={new Date(dueDate)} setCurrentDate={handleUpdateDate} colors={colors[priority.color]}/>
 
       </div>
       <TaskText variant={"name"} text={name} setText={handleUpdateName}/>
@@ -107,7 +107,7 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
       <Button 
         text={"Complete"} 
         action={()=>handleComplete(task.id)} 
-        colors={priorityColors[priority.backgroundClass]}/>
+        colors={priorityColors[priority.color]}/>
     </div>
   );
 }

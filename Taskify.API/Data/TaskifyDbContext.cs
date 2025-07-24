@@ -12,8 +12,7 @@ namespace Taskify.API.Data
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
+        {                
             modelBuilder.Entity<ToDoTask>()
                 .HasOne(p => p.Priority)
                 .WithMany(t => t.Tasks)

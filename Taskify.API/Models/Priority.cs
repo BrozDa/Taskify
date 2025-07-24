@@ -7,7 +7,6 @@ namespace Taskify.API.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
-
         public string Color { get; set; } = string.Empty;
 
         [JsonIgnore]
@@ -15,7 +14,7 @@ namespace Taskify.API.Models
 
         public PriorityDto ToDto()
         {
-            return new PriorityDto { Id = Id, Name = Name, Color = "blue" };
+            return new PriorityDto { Id = Id, Name = Name, Color = Color };
         }
     }
 }
