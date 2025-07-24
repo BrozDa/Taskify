@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Taskify.API.Data;
 using Taskify.API.Models;
@@ -14,6 +15,8 @@ namespace Taskify.API.Services
         {
             return await context
                 .ToDoTasks
+                .Include(t => t.Tags)
+                .Include(t => t.Priority)
                 .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
         }
         public async Task<TaskServiceResult<List<ToDoTaskDto>>> GetPendingForUser(Guid userId)
@@ -98,6 +101,8 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(task.ToDto(), HttpStatusCode.OK);    
         }
+
+        [AllowAnonymous]
         public async Task<TaskServiceResult<ToDoTaskDto>> UpdateTags(Guid userId, Guid taskId, List<Guid> updatedTagIds)
         {
             var task = await GetSingleTaskForUser(userId, taskId);

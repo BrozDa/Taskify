@@ -43,15 +43,18 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
     dateStyle: 'medium',
   }).format(date);
 
-  const handleDeleteTag = async (tagId) => {
-    const updatedTags = tags.filter(t => t.id !== tagId);
-    const result = await tasksUpdateTags(task.id, updatedTags.map(t => t.id));
+  const handleDeleteTag = async (deletedTag) => {
+    const updatedTags = tags.filter(t => t.id !== deletedTag.id);
+
+    await tasksUpdateTags(task.id, updatedTags.map(t => t.id));
+    
     setTags(updatedTags);
+    setUsableTags([...usableTags, deletedTag].sort((a,b) => a.name.localeCompare(b.name)))
   }
   const handleAddTag = async(newTag) => {
-
+    
     const updatedTags = [...tags,newTag];
-    const result = await tasksUpdateTags(task.id, updatedTags.map(t => t.id))
+    await tasksUpdateTags(task.id, updatedTags.map(t => t.id))
     setTags(updatedTags);
     setUsableTags(usableTags.filter(t => t.id !== newTag.id));
   }
@@ -94,7 +97,7 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
           <span
             key={t.id}
             className="px-2 py-0.5 bg-white/80 hover:bg-white/40 rounded-full text-xs font-medium "
-            onDoubleClick={() => handleDeleteTag(t.id)}
+            onDoubleClick={() => handleDeleteTag(t)}
           >
             #{t.name}
           </span>
