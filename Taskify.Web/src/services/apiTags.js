@@ -17,9 +17,11 @@ export const tagsGetAll = async() => {
     return response.data;
     
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      throw new Error(`Something wrong ${error}`);
+  catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data || error.message;
+
+      throw new Error(`Request failed: ${message}`);
     }
     throw new Error("Unhandled error - contact administrator")
   }

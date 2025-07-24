@@ -2,201 +2,194 @@ import axios from "axios";
 
 const baseUrl = "https://localhost:7024/api/Tasks";
 
-export const tasksGetPending = async() => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  
-  try{
-    
-    const response = await axios.get(`${baseUrl}/pending`,{
-      timeout:5000,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(response)
-    return response.data;
-    
+
+const handleErrorResponse = (error) => {
+  if (axios.isAxiosError(error)) {
+    const status = error.response?.status;
+    const message = error.response?.data || error.message;
+
+    if(status === 400)
+      return `Bad request: ${message}`;
+
+    if(status === 401)
+      return "Unauthorized Acccess";
+
+    if(status === 404)
+      return "Not Found"
+
+    return `Request failed: ${message}`;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      throw new Error("Something wrong with axios");
-    }
-    throw new Error("Unhandled error - contact administrator")
-  }
+  return "Unhandled Error - Contact Administrator";
 }
-export const tasksGetCompleted = async() => {
+export const tasksGetPending = async () => {
   const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
-  
-  try{
-    const response = await axios.get(`${baseUrl}/completed`,{
-      timeout:5000,
+  if (!token) throw new Error("User not logged in");
+  try {
+    const response = await axios.get(`${baseUrl}/pending`, {
+      timeout: 5000,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
-    
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      throw new Error("Something wrong with axios");
-    }
-    throw new Error("Unhandled error - contact administrator")
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
-export const tasksAddTask = async(newTask) => {
+export const tasksGetCompleted = async () => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
-  try{
-    const reply = await axios.post(`${baseUrl}/add`, newTask,{
+  if (!token) throw new Error("User not logged in");
+
+  try {
+    const response = await axios.get(`${baseUrl}/completed`, {
       timeout: 5000,
-      headers :{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+
+  }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
+  }
+}
+export const tasksAddTask = async (newTask) => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("User not logged in");
+  try {
+    const response = await axios.post(`${baseUrl}/add`, newTask, {
+      timeout: 5000,
+      headers: {
         Authorization: `Bearer ${token}`
       },
     })
-    return reply.data;
+    return response.data;
   }
-  catch(error){
-
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
-export const tasksCompleteTask = async(taskId) => {
+export const tasksCompleteTask = async (taskId) => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
+  if (!token) throw new Error("No token found");
 
-  try{
-    const reply = await axios.patch(`${baseUrl}/${taskId}/complete`,
+  try {
+    const response = await axios.patch(`${baseUrl}/${taskId}/complete`,
       {
-      timeout: 5000,
-      headers :{
-        Authorization: `Bearer ${token}`
-      },
-    })
-    return reply.data;
+        timeout: 5000,
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+    return response.data;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      //do stuff
-    }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
-
-
-export const tasksDeleteTask = async(taskId) => {
+export const tasksDeleteTask = async (taskId) => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
+  if (!token) throw new Error("No token found");
 
-  try{
-    const reply = await axios.delete(`${baseUrl}/${taskId}`,
+  try {
+    const response = await axios.delete(`${baseUrl}/${taskId}`,
       {
-      timeout: 5000,
-      headers :{
-        Authorization: `Bearer ${token}`
-      },
-    })
-    return reply.data;
+        timeout: 5000,
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+    return response.data;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      //do stuff
-    }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
-export const tasksUpdateTags = async(taskId, updatedTags) => {
+export const tasksUpdateTags = async (taskId, updatedTags) => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
+  if (!token) throw new Error("User not logged in");
 
-  try{
-    const reply = await axios.patch(`${baseUrl}/${taskId}/tags`,updatedTags,{
+  try {
+    const response = await axios.patch(`${baseUrl}/${taskId}/tags`, updatedTags, {
       timeout: 5000,
-      headers :{
+      headers: {
         Authorization: `Bearer ${token}`
       },
     })
-    return reply.data;
+    return response.data;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      //do stuff
-    }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 
 }
-export const tasksUpdatePriority = async(taskId, updatedPriorityId) => {
+export const tasksUpdatePriority = async (taskId, updatedPriorityId) => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
+  if (!token) throw new Error("User not logged in");
 
-  try{
-    const reply = await axios.patch(`${baseUrl}/${taskId}/priority`,{updatedPriorityId},{
+  try {
+    const response = await axios.patch(`${baseUrl}/${taskId}/priority`, { updatedPriorityId }, {
       timeout: 5000,
-      headers :{
+      headers: {
         Authorization: `Bearer ${token}`
       },
     })
-    return reply.data;
+    return response.data;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      //do stuff
-    }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
-export const tasksUpdateName = async(taskId, newName) => {
+export const tasksUpdateName = async (taskId, newName) => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
+  if (!token) throw new Error("User not logged in");
 
-  try{
-    const reply = await axios.patch(`${baseUrl}/${taskId}/name`,{newName},{
+  try {
+    const response = await axios.patch(`${baseUrl}/${taskId}/name`, { newName }, {
       timeout: 5000,
-      headers :{
+      headers: {
         Authorization: `Bearer ${token}`
       },
     })
-    return reply.data;
+    return response.data;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      //do stuff
-    }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
-export const tasksUpdateDescription = async(taskId, newDescription) => {
+export const tasksUpdateDescription = async (taskId, newDescription) => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
+  if (!token) throw new Error("User not logged in");
 
-  try{
-    const reply = await axios.patch(`${baseUrl}/${taskId}/description`,{newDescription},{
+  try {
+    const response = await axios.patch(`${baseUrl}/${taskId}/description`, { newDescription }, {
       timeout: 5000,
-      headers :{
+      headers: {
         Authorization: `Bearer ${token}`
       },
     })
-    return reply.data;
+    return response.data;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      //do stuff
-    }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
-export const tasksUpdateDate = async(taskId, newDate) => {
+export const tasksUpdateDate = async (taskId, newDate) => {
   const token = localStorage.getItem("token");
-  if(!token) throw new Error("No token found");
+  if (!token) throw new Error("User not logged in");
 
-  try{
-    const reply = await axios.patch(`${baseUrl}/${taskId}/date`,{newDate},{
+  try {
+    const response = await axios.patch(`${baseUrl}/${taskId}/date`, { newDate }, {
       timeout: 5000,
-      headers :{
+      headers: {
         Authorization: `Bearer ${token}`
       },
     })
-    return reply.data;
+    return response.data;
   }
-  catch(error){
-    if(axios.isAxiosError(error)){
-      //do stuff
-    }
+  catch (error) {
+    throw new Error(handleErrorResponse(error));
   }
 }
