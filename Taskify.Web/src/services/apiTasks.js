@@ -8,16 +8,12 @@ const handleErrorResponse = (error) => {
     const status = error.response?.status;
     const message = error.response?.data || error.message;
 
-    if(status === 400)
-      return `Bad request: ${message}`;
-
-    if(status === 401)
-      return "Unauthorized Acccess";
-
-    if(status === 404)
-      return "Not Found"
-
-    return `Request failed: ${message}`;
+    switch(status){
+      case 400: return `Bad request: ${message}`;
+      case 401: return "Unauthorized Acccess";
+      case 404: return "Not Found"
+      default: return `Request failed: ${message}`;
+    }
   }
   return "Unhandled Error - Contact Administrator";
 }
