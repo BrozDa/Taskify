@@ -44,7 +44,7 @@ function Dashboard() {
         };
         fetchData();
     }, [])
-    
+
     const handleDeleteTask = async (taskId) => {
         await tasksDeleteTask(taskId);
         setTasks(tasks.filter(t => t.id !== taskId));

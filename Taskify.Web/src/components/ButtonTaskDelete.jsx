@@ -1,6 +1,6 @@
 function ButtonTaskDelete({task, handleDelete}) {
   return (
-    <button className="w-4 h-4 m-0 p-0 rounded-full flex items-center justify-center
+    <button className="absolute top-1 right-1 w-4 h-4 m-0 p-0 rounded-full flex items-center justify-center
                        bg-gray-500 hover:bg-red-500 hover:border-none  text-white focus:outline-none active:scale-125 active:bg-red-800 transition-transform duration-150"
                        onClick={() => handleDelete(task.id)}>
             
