@@ -25,8 +25,9 @@ function NewTask({priorities, tags, addNewTask}) {
     setNewTaskTags([...newTaskTags, newTag])
     setUsableTags(usableTags.filter(t => t.name !== newTag.name));
   }
-  const handleRemoveTag = (tagId) => {
-    setNewTaskTags(newTaskTags.filter(t => t.id !== tagId));
+  const handleRemoveTag = (tag) => {
+    setNewTaskTags(newTaskTags.filter(t => t.id !== tag.id));
+    setUsableTags([...usableTags, tag].sort((a,b) => a.name.localeCompare(b.name)))
   }
   const handleNewTaskName = (value) => {
     value.length === 0 ? setNewTaskName("New Task Name") : setNewTaskName(value)
@@ -94,7 +95,7 @@ function NewTask({priorities, tags, addNewTask}) {
         <span
           key={t.name}
           className="px-2 py-1 bg-white/80 hover:bg-white/40 rounded-full text-xs font-medium"
-          onDoubleClick={() => handleRemoveTag(t.id)}
+          onDoubleClick={() => handleRemoveTag(t)}
         >
           #{t.name}
         </span>
