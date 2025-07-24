@@ -171,6 +171,9 @@ namespace Taskify.API.Services
 
             if (task is null)
                 return TaskServiceResult<ToDoTaskDto>.NotFound();
+            if (dto.NewDate < DateTime.Today)
+                return TaskServiceResult<ToDoTaskDto>.BadRequest("Date have to be set for today and onwards");
+                
 
             task.DueDate = dto.NewDate;
 

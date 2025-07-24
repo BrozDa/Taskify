@@ -49,7 +49,7 @@ function TaskDate({
           id="dropdown"
           className="absolute top-full -left-full transform translate-x-2/3 mt-1 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-32 dark:bg-gray-700"
         >
-          <DatePicker selected={currentDate} onChange={handleChange} inline/>
+          <DatePicker selected={currentDate} onChange={handleChange} inline minDate={Date.now()}/>
         </div>
       )}
     </div>
