@@ -71,7 +71,6 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(newTask.ToDto(), HttpStatusCode.Created);
         }
-
         public async Task<TaskServiceResult<Guid>> DeleteTask(Guid userId, Guid taskId)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -84,8 +83,6 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<Guid>.NoContent();
         }
-
-
         public async Task<TaskServiceResult<ToDoTaskDto>> CompleteTask(Guid userId, Guid taskId)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -101,7 +98,6 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(task.ToDto(), HttpStatusCode.OK);    
         }
-
         public async Task<TaskServiceResult<ToDoTaskDto>> UpdateTags(Guid userId, Guid taskId, List<Guid> updatedTagIds)
         {
             var task = await GetSingleTaskForUser(userId, taskId);

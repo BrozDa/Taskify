@@ -17,6 +17,7 @@ namespace Taskify.API.Controllers
             var result = await context
                 .Tags
                 .Select(t => new TagDto() { Id=t.Id, Name=t.Name })
+                .OrderBy(t => t.Name)
                 .ToListAsync();
 
             return Ok(result);
