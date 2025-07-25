@@ -1,5 +1,5 @@
 import DatePicker from "react-datepicker";
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 
 function TaskDate({
@@ -9,7 +9,24 @@ function TaskDate({
   colors = "text-white bg-blue-700 hover:bg-blue-800"
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  
+
+  const datePickerRef = useRef();
+
+  useEffect(() => {
+    if (!isOpen)
+      return;
+
+    const handleClickOutside = (e) => {
+      if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+  }, [isOpen]);
   const formattedDate = new Intl.DateTimeFormat('cs-CZ', {
     dateStyle: 'medium',
   }).format(currentDate);
@@ -24,14 +41,14 @@ function TaskDate({
   };
 
   return (
-    <div className="relative inline-block z-10 w-36">
+    <div ref={datePickerRef} className="relative inline-block z-10 w-36">
       {newTask ? (
         <button
           id="dateButton"
           className={`${colors} focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center w-36`}
           type="button"
           onClick={handleClick}
-          
+
         >
           {currentDate ? formattedDate : "Select due date"}
         </button>
@@ -49,7 +66,7 @@ function TaskDate({
           id="dropdown"
           className="absolute top-full -left-full transform translate-x-2/3 mt-1 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-32 dark:bg-gray-700"
         >
-          <DatePicker selected={currentDate} onChange={handleChange} inline minDate={Date.now()}/>
+          <DatePicker selected={currentDate} onChange={handleChange} inline minDate={Date.now()} />
         </div>
       )}
     </div>
