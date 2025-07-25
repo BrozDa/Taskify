@@ -5,9 +5,6 @@ import { tagsGetAll } from "../services/apiTags";
 
 import { tasksGetCompleted } from "../services/apiTasks";
 
-
-import DashboardMenu from '../components/DashboardMenu';
-import DashboardHeader from '../components/DashboardHeader';
 import CompletedTask from "../components/CompletedTask";
 import Loading from "../components/Loading";
 
@@ -75,12 +72,8 @@ function Dashboard() {
     }
 
     return (
-        <div className="flex min-h-screen w-screen bg-gray-100">
-            <div className="w-52 bg-gray-800 flex flex-shrink-0 justify-center">
-                <DashboardMenu />
-            </div>
+        <div className="p-4 pt-12 sm:ml-64">
             <div className="flex flex-col flex-1">
-                <DashboardHeader />
                 {loading
                     ?
                     <Loading />
