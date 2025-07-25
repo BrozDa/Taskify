@@ -10,6 +10,8 @@ namespace Taskify.API.Models
         [JsonIgnore]
         public List<ToDoTask> Tasks { get; set; } = new();
 
+        public List<User> Users { get; set; } = new();
+
         public TagDto ToDto()
         {
             return new TagDto { Id = Id, Name = Name };

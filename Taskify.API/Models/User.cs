@@ -8,5 +8,8 @@
         public string Role { get; set; } = string.Empty;
 
         public List<ToDoTask>? Tasks { get; set; }
+
+        public List<Tag>? Tags { get; set; } = new();
+
     }
 }

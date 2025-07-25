@@ -19,25 +19,26 @@ namespace Taskify.API.Services
             await context.Priorities.AddRangeAsync(priorityLow, priorityMedium, priorityHigh, priorityCritical);
             await context.SaveChangesAsync();
 
-            var tagFamily = new Tag() { Name = "Family" };
-            var tagWork = new Tag() { Name = "Work" };
-            var tagStudy = new Tag() { Name = "Study" };
-            var tagUrgent = new Tag() { Name = "Urgent" };
-            var tagPersonal = new Tag() { Name = "Personal" };
-            var tagHealth = new Tag() { Name = "Health" };
-            var tagShopping = new Tag() { Name = "Shopping" };
-            var tagFinance = new Tag() { Name = "Finance" };
-            var tagTravel = new Tag() { Name = "Travel" };
-            var tagIdeas = new Tag() { Name = "Ideas" };
-            var tagFitness = new Tag() { Name = "Fitness" };
-            var tagHome = new Tag() { Name = "Home" };
+            User adminUser = await authService.RegisterAsync(new UserDto { Username = "admin", Password = "admin", Role = "admin" });
+            User standardUser = await authService.RegisterAsync(new UserDto { Username = "user", Password = "user", Role = "user" });
+
+            var tagFamily = new Tag() { Name = "Family", Users = { adminUser, standardUser } };
+            var tagWork = new Tag() { Name = "Work", Users = { adminUser, standardUser } };
+            var tagStudy = new Tag() { Name = "Study", Users = { adminUser, standardUser } };
+            var tagUrgent = new Tag() { Name = "Urgent", Users = { adminUser, standardUser } };
+            var tagPersonal = new Tag() { Name = "Personal", Users = { adminUser, standardUser } };
+            var tagHealth = new Tag() { Name = "Health", Users = { adminUser, standardUser } };
+            var tagShopping = new Tag() { Name = "Shopping", Users = { adminUser, standardUser } };
+            var tagFinance = new Tag() { Name = "Finance", Users = { adminUser, standardUser } };
+            var tagTravel = new Tag() { Name = "Travel", Users = { adminUser, standardUser } };
+            var tagIdeas = new Tag() { Name = "Ideas", Users = { adminUser, standardUser } };
+            var tagFitness = new Tag() { Name = "Fitness", Users = { adminUser, standardUser } };
+            var tagHome = new Tag() { Name = "Home", Users = { adminUser, standardUser } };
 
             await context.Tags.AddRangeAsync(tagFamily, tagWork, tagStudy, tagUrgent, tagPersonal, tagHealth, tagShopping, tagFinance,
                 tagTravel, tagIdeas, tagFitness, tagHome);
             await context.SaveChangesAsync();
 
-            var adminUser = await authService.RegisterAsync(new UserDto { Username = "admin", Password = "admin", Role = "admin" });
-            var standardUser = await authService.RegisterAsync(new UserDto { Username = "user", Password = "user", Role = "user" });
 
 
             var tasks = new List<ToDoTask>()

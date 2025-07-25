@@ -26,12 +26,13 @@ namespace Taskify.API.Data
                   l => l.HasOne<ToDoTask>(tt => tt.ToDoTask).WithMany().HasForeignKey(tt => tt.ToDoTaskId)
                 );
 
-            modelBuilder.Entity<ToDoTask>()
-                .HasOne(u => u.User)
-                .WithMany(t => t.Tasks)
-                .HasForeignKey(u => u.UserId);
-
-            
+            modelBuilder.Entity<User>()
+                .HasMany(t => t.Tags)
+                .WithMany(t => t.Users)
+                .UsingEntity<UserTag>(
+                r => r.HasOne<Tag>(tt => tt.Tag).WithMany().HasForeignKey(tt => tt.TagId),
+                l => l.HasOne<User>(tt => tt.User).WithMany().HasForeignKey(tt => tt.UserId)
+                );
         }
     }
     
