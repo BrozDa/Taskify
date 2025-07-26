@@ -19,8 +19,8 @@ namespace Taskify.API.Services
             await context.Priorities.AddRangeAsync(priorityLow, priorityMedium, priorityHigh, priorityCritical);
             await context.SaveChangesAsync();
 
-            User adminUser = await authService.RegisterAsync(new UserDto { Username = "admin", Password = "admin", Role = "admin" });
-            User standardUser = await authService.RegisterAsync(new UserDto { Username = "user", Password = "user", Role = "user" });
+            User adminUser = await authService.RegisterAsync(new UserDto { Username = "admin", Password = "admin"});
+            User standardUser = await authService.RegisterAsync(new UserDto { Username = "user", Password = "user"});
 
             var tagFamily = new Tag() { Name = "Family", Users = { adminUser, standardUser } };
             var tagWork = new Tag() { Name = "Work", Users = { adminUser, standardUser } };

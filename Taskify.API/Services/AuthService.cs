@@ -44,7 +44,6 @@ namespace Taskify.API.Services
 
             user.Username = request.Username;
             user.PasswordHash = hashedPassword;
-            user.Role = request.Role;
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -57,7 +56,6 @@ namespace Taskify.API.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
             };
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(configuration.GetValue<string>("AppSettings:Token")!));
