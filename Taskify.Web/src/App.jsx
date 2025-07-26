@@ -8,6 +8,10 @@ import Register from './pages/Register';
 import CompletedTasks from "./pages/CompletedTasks"
 import DashboardLayout from './layouts/DashboardLayout';
 
+import ReactModal from 'react-modal';
+
+ReactModal.setAppElement('#root');
+
 function App() {
   const { token } = useAuth();
 

@@ -6,23 +6,29 @@ import { tasksUpdatePriority,
   tasksUpdateDescription, 
   tasksUpdateDate, 
        } from '../services/apiTasks';
-
+import { tagsAdd } from '../services/apiTags';
 import TaskPriority from './TaskPriority';
 import TaskText from './TaskText';
 import TaskTag from './TaskTag';
 import TaskDate from './TaskDate';
 import Button from './Button';
 
-function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
+
+function Task({ task, allTags, setAllTags, allPriorities, handleDelete, handleComplete}) {
 
   const [tags, setTags] = useState(task.tags);
-  const [usableTags, setUsableTags] = useState(allTags.filter(t => !task.tags.some(tag => tag.id === t.id)));
+  const [usableTags, setUsableTags] = useState([]);
   const [priority, setPriority] = useState(task.priority);
   const [name, setName] = useState(task.name);
   const [description, setDescription] = useState(task.description);
   const [dueDate, setDueDate] = useState(task.dueDate);
 
-  useEffect(() => { }, [tags]);
+  useEffect(() => {
+  const updatedUsable = allTags.filter(
+    t => !tags.some(tag => tag.id === t.id)
+  );
+  setUsableTags(updatedUsable);
+  }, [tags, allTags]);
 
   const date = new Date(task.dueDate);
 
@@ -51,12 +57,24 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
     setTags(updatedTags);
     setUsableTags([...usableTags, deletedTag].sort((a,b) => a.name.localeCompare(b.name)))
   }
-  const handleAddTag = async(newTag) => {
-    
-    const updatedTags = [...tags,newTag];
+  const handleAddExistingTag = async(addedTag) => {
+    const updatedTags = [...tags,addedTag];
     await tasksUpdateTags(task.id, updatedTags.map(t => t.id))
     setTags(updatedTags);
-    setUsableTags(usableTags.filter(t => t.id !== newTag.id));
+    setUsableTags(usableTags.filter(t => t.id !== addedTag.id));
+  }
+  const handleAddNewTag = async(newTagName) => {
+
+    const newTag = {
+      taskId : task.id,
+      name : newTagName
+    }
+    const addedTag = await tagsAdd(newTag);
+    const sortedAllTags = [...allTags, addedTag].sort((a,b) => a.name.localeCompare(b.name))
+    const updatedTaskTags = [...tags, addedTag].sort((a,b) => a.name.localeCompare(b.name))
+
+    setTags(updatedTaskTags);
+    setAllTags(sortedAllTags);
   }
   const setNewPriority = async (priority) => {
     const result = await tasksUpdatePriority(task.id, priority.id);
@@ -76,7 +94,9 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
   }
 
   return (
+    
     <div className={`relative flex flex-1 flex-col max-w-xl justify-around ${colors[priority.color]} text-black m-4 rounded-xl min-h-48 p-4 shadow-lg  space-y-4`}>
+      
       <div className=" absolute top-2 right-2 z-20" >
         <ButtonTaskDelete task={task} handleDelete={() => handleDelete(task.id)} />
       </div>
@@ -102,7 +122,7 @@ function Task({ task, allTags, allPriorities, handleDelete, handleComplete}) {
             #{t.name}
           </span>
         ))}
-        <TaskTag tags={usableTags} setNewTag={handleAddTag}/>
+        <TaskTag tags={usableTags} addExistingTag={handleAddExistingTag} addNewTag={handleAddNewTag}/>
       </div>
       <Button 
         text={"Complete"} 

@@ -6,8 +6,9 @@ import TaskText from './TaskText';
 import TaskTag from './TaskTag';
 import Button from './Button';
 import TaskDate from './TaskDate';
+import { tagsAddForNewTask } from '../services/apiTags';
 
-function NewTask({priorities, tags, addNewTask}) {
+function NewTask({priorities, tags, setTags, addNewTask}) {
 
   const [newPriority, setNewPriority] = useState(null);
   const [newTaskDueDate, setNewTaskDueDate] = useState(null);
@@ -18,13 +19,23 @@ function NewTask({priorities, tags, addNewTask}) {
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-  setUsableTags([...tags]);
+    setUsableTags(tags.filter(t => !newTaskTags.some(ut => ut.id === t.id)));
   } , [tags]);
 
-  const handleAddTag = (newTag) => {
+  const handleAddExistingTag = (newTag) => {
     setNewTaskTags([...newTaskTags, newTag])
     setUsableTags(usableTags.filter(t => t.name !== newTag.name));
   }
+  const handleAddNewTag = async(newTagName) => {
+      console.log(newTagName)
+      const addedTag = await tagsAddForNewTask(newTagName);
+      const sortedTags = [...newTaskTags, addedTag].sort((a,b) => a.name.localeCompare(b.name))
+
+      setNewTaskTags(sortedTags)
+
+      setTags([...tags, addedTag].sort((a,b) => a.name.localeCompare(b.name)))
+  }
+
   const handleRemoveTag = (tag) => {
     setNewTaskTags(newTaskTags.filter(t => t.id !== tag.id));
     setUsableTags([...usableTags, tag].sort((a,b) => a.name.localeCompare(b.name)))
@@ -100,7 +111,7 @@ function NewTask({priorities, tags, addNewTask}) {
           #{t.name}
         </span>
       ))}
-      <TaskTag tags={usableTags} setNewTag={handleAddTag}/>
+      <TaskTag tags={usableTags} addExistingTag={handleAddExistingTag} addNewTag={handleAddNewTag}/>
     </div>
     <div className="flex justify-center items-center">
       <Button text={"Add new Task"} action={handleSubmit}/>

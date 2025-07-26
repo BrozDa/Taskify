@@ -42,6 +42,7 @@ function Dashboard() {
         };
         fetchData();
     }, [])
+    useEffect(()=>{},[tags])
 
     const handleDeleteTask = async (taskId) => {
         await tasksDeleteTask(taskId);
@@ -98,8 +99,8 @@ function Dashboard() {
                             </div>
                             :
                             <>
-                                <NewTask id="newTask" priorities={priorities} tags={tags} addNewTask={handleSetTask} />
-                                {tasks && tasks.map(t => (<Task key={t.id} task={t} allTags={tags} allPriorities={priorities} handleDelete={handleDeleteTask} handleComplete={handleCompleteTask} />))}
+                                <NewTask id="newTask" priorities={priorities} tags={tags} setTags={setTags} addNewTask={handleSetTask} />
+                                {tasks && tasks.map(t => (<Task key={t.id} task={t} allTags={tags} setAllTags={setTags}  allPriorities={priorities} handleDelete={handleDeleteTask} handleComplete={handleCompleteTask} />))}
                             </>
                         }
                     </div>
