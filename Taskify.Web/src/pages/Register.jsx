@@ -32,8 +32,8 @@ function Register() {
     }
 
   return (
-    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-600">
-      <div className="flex-1  justify-around items-center w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md">
+    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-200">
+      <div className="flex-1  justify-around items-center w-full max-w-md p-8 bg-gray-50 rounded-lg shadow-md">
         <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400">
           Create new account
         </h2>
