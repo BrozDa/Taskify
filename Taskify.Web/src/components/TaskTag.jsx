@@ -75,7 +75,7 @@ function TaskTag({ tags, addExistingTag, addNewTag }) {
         isOpen={isModalOpen}
         onRequestClose={handleModalClose}
         shouldFocusAfterRender={true}
-        className="bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-md mx-auto my-auto focus:outline-none"
+        className="bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg p-6 w-3/4 max-w-md mx-auto my-auto focus:outline-none"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50"
       >
         <div className="flex-col justify-start items-center">
