@@ -16,7 +16,6 @@ function Navbar({ isMenuOpen, setIsMenuOpen }) {
             </button>
               <span className="ml-5 self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">TASKIFY</span>
           </div>
-          
         </div>
       </div>
     </nav>
