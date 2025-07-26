@@ -72,7 +72,7 @@ function Dashboard() {
     }
 
     return (
-        <div className="py-12 sm:ml-7">
+        <div className="py-12 pl-40 sm:ml-7">
             <div className="flex flex-col flex-1">
                 {loading
                     ?

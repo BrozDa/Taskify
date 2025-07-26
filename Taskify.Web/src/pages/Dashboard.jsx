@@ -85,13 +85,13 @@ function Dashboard() {
 
 
     return (
-        <div className="py-12 sm:ml-7">      
+        <div className="py-12 pl-40 sm:ml-7">      
             <div className="flex flex-col flex-1">
                 {loading
                     ?
                     <Loading />
                     :
-                    <div className="grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 p-auto">
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4">
                         {error
                             ?
                             <div>

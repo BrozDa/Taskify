@@ -4,6 +4,7 @@ import {authLogin} from "../services/apiAuth"
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginInput from '../components/LoginInput';
 import Button from '../components/Button';
+import DarkModeToggle from '../components/DarkModeToggle';
 function Login() {
 
   const { setToken } = useAuth();
@@ -31,19 +32,19 @@ function Login() {
   }
 
   return (
-    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-200">
-      <div className="w-full max-w-md p-8 bg-gray-50 rounded-lg shadow-md">
-
+    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 px-4 sm:px-0">
+      <div className="w-full max-w-md p-8 bg-gray-100 dark:bg-gray-500 rounded-lg shadow-md">
+        <DarkModeToggle />
         {successMessage && (
         <h2 className="mb-6 text-2xl font-semibold text-center text-green-400">
           {successMessage}
         </h2>
         )}
-        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400">
+        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400 dark:text-blue-300">
           Sign in to your account
         </h2>
 
-        {error && <p className="text-red-500 mb-3">{error}</p>}
+        {error && <p className="text-red-400 font-medium mb-3">{error}</p>}
         <form className="space-y-4">
           <LoginInput
             label="Username"

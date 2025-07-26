@@ -54,17 +54,17 @@ function TaskTag({ tags, addExistingTag, addNewTag }) {
         </svg>
       </span>
       {dropDownOpen &&
-        <div id="dropdown" className="absolute -left-10 z-30 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-fit">
+        <div id="dropdown" className="absolute -left-10 z-30 bg-white dark:bg-gray-800 divide-y divide-gray-100 rounded-lg shadow-sm w-fit">
 
-          <ul className="p-0.5 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          <ul className="p-0.5 text-sm text-gray-700 dark:text-gray-100 " aria-labelledby="dropdownDefaultButton">
             <li key="new-tag">
               <button
                 onClick={handleModalOpen}
-                className="flex w-full items-center justify-center px-2 py-1 hover:bg-gray-200 font-medium rounded-lg cursor-pointer">New Tag</button >
+                className="flex w-full items-center justify-center px-2 py-1 hover:bg-gray-300 dark:hover:bg-gray-500 font-medium rounded-lg cursor-pointer">New Tag</button >
             </li>
             {tags.map(t => (
               <li key={t.id}>
-                <span className="block px-2 py-1 hover:bg-gray-200 hover:rounded-lg cursor-pointer" onClick={() => addExistingTag(t)}>{t.name}</span>
+                <span className="block px-2 py-1 hover:bg-gray-300 dark:hover:bg-gray-500 hover:rounded-lg cursor-pointer" onClick={() => addExistingTag(t)}>{t.name}</span>
               </li>
             ))}
           </ul>

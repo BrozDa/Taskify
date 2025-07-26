@@ -8,7 +8,7 @@ function DashboardLayout() {
    const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   return (
-   <div className="flex h-screen">
+   <div className="flex h-max">
       <SideBar isSideBarOpen={isSideBarOpen} />
       <div className="flex-1 flex flex-col">
         <Navbar isMenuOpen={isSideBarOpen} setIsMenuOpen={setIsSideBarOpen} />

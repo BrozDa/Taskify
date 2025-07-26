@@ -3,7 +3,7 @@ import LoginInput from '../components/LoginInput';
 import Button from '../components/Button';
 import {authRegistration} from "../services/apiAuth";
 import { useNavigate } from "react-router-dom";
-
+import DarkModeToggle from '../components/DarkModeToggle';
 function Register() {
 
   const [username, setUsername] = useState("");
@@ -32,12 +32,13 @@ function Register() {
     }
 
   return (
-    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-200">
-      <div className="flex-1  justify-around items-center w-full max-w-md p-8 bg-gray-50 rounded-lg shadow-md">
-        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400">
+    <div className="flex w-screen h-screen items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 px-4 sm:px-0">
+      <div className="flex-1  justify-around items-center w-full max-w-md p-8 bg-gray-100 dark:bg-gray-500 rounded-lg shadow-md">
+        <DarkModeToggle />
+        <h2 className="mb-6 text-2xl font-semibold text-center text-blue-400 dark:text-blue-300">
           Create new account
         </h2>
-        {error && <p className="text-red-500 mb-3">{error}</p>}
+        {error && <p className="text-red-400 mb-3">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <LoginInput
             label="Username"
@@ -67,6 +68,10 @@ function Register() {
             type="submit"
             text="Create account"
             action={(e) => handleSubmit(username, password,e)}/>
+          <Button 
+            type="submit"
+            text="Back to login screen"
+            action={() => navigate("/login")}/>
         </form>
       </div>
     </div>
