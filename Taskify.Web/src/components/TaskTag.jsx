@@ -18,6 +18,12 @@ function TaskTag({ tags, addExistingTag, addNewTag }) {
       inputRef.current.focus();
     }
   }, [isModalOpen]);
+
+const handleAddExistingTag = (tag) => {
+  setDropDownOpen(false);
+  addExistingTag(tag);
+}
+
   const handleModalOpen = () => {
     setIsModalOpen(true);
 
@@ -64,7 +70,7 @@ function TaskTag({ tags, addExistingTag, addNewTag }) {
             </li>
             {tags.map(t => (
               <li key={t.id}>
-                <span className="block px-2 py-1 hover:bg-gray-300 dark:hover:bg-gray-500 hover:rounded-lg cursor-pointer" onClick={() => addExistingTag(t)}>{t.name}</span>
+                <span className="block px-2 py-1 hover:bg-gray-300 dark:hover:bg-gray-500 hover:rounded-lg cursor-pointer" onClick={() => handleAddExistingTag(t)}>{t.name}</span>
               </li>
             ))}
           </ul>
