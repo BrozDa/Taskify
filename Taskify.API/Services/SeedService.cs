@@ -34,9 +34,10 @@ namespace Taskify.API.Services
             var tagIdeas = new Tag() { Name = "Ideas", Users = { adminUser, standardUser } };
             var tagFitness = new Tag() { Name = "Fitness", Users = { adminUser, standardUser } };
             var tagHome = new Tag() { Name = "Home", Users = { adminUser, standardUser } };
+            var adminOnlyTag = new Tag() { Name = "adminOnlyTag", Users = { adminUser } };
 
             await context.Tags.AddRangeAsync(tagFamily, tagWork, tagStudy, tagUrgent, tagPersonal, tagHealth, tagShopping, tagFinance,
-                tagTravel, tagIdeas, tagFitness, tagHome);
+                tagTravel, tagIdeas, tagFitness, tagHome, adminOnlyTag);
             await context.SaveChangesAsync();
 
 
