@@ -1,10 +1,10 @@
 # 📝 Taskify – ToDo App with .NET & React
 
-This is a full-stack CRUD application built with **ASP.NET Core (.NET)** and **React**, designed to help users manage tasks with support for priorities, tags, and authentication.
+_A hands-on learning project built with ASP.NET Core Web API and React_
+
+This project was created to deepen understanding of building a full-stack CRUD application with authentication, relational data handling, and responsive UI design.
 
 Users can **create, manage, complete, or delete tasks** securely through **JWT-based authentication**.
-
-Built for learning and fun
 
 ---
 
@@ -47,7 +47,7 @@ Built for learning and fun
 
 - **Backend**: ASP.NET Core Web API (.NET 8+)
 - **Frontend**: React (JavaScript)
-- **Styling**: Tailwind for modern, responsive UI (includes Dark Mode support )
+- **Styling**: Tailwind for modern, responsive UI (includes Dark Mode support)
 - **Auth**: JWT Bearer Tokens
 - **Database**: Entity Framework Core (with SQLite or SQL Server)
 - **State Management**: React Context API
