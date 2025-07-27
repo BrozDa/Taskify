@@ -49,7 +49,7 @@ Users can **create, manage, complete, or delete tasks** securely through **JWT-b
 - **Frontend**: React (JavaScript)
 - **Styling**: Tailwind for modern, responsive UI (includes Dark Mode support)
 - **Auth**: JWT Bearer Tokens
-- **Database**: Entity Framework Core (with SQLite or SQL Server)
+- **Database**: Entity Framework Core with SQL Server
 - **State Management**: React Context API
 
 ## Architecture Notes
