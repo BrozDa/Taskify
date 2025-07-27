@@ -59,3 +59,18 @@ Built for learning and fun
 - Add **logging**
 - Add **email verification** during registration for added  security
 - Add **search and filtering** options for tasks and tags
+
+## Screenshots
+  ### Dashboard in light mode:
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/624d6921-e94d-4890-87ae-4ab4c18a8c56" />
+
+
+
+  ### Completed tasks in dark mode:
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/c48291a1-946a-4957-aee4-f190bb2700d0" />
+
+
+
+ ### Mobile version od dashboard in dark mode:
+<img width="381" height="636" alt="image" src="https://github.com/user-attachments/assets/08c5c37e-5e3a-4688-ba1e-f467fd84aea9" />
+
