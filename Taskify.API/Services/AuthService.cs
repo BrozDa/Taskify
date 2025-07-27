@@ -11,8 +11,15 @@ using Taskify.API.Services.Interfaces;
 
 namespace Taskify.API.Services
 {
+    /// <summary>
+    /// Service responsible for handling user authentication operations, such as login and registration.
+    /// Implements <see cref="IAuthService"/>
+    /// </summary>
+    /// <param name="context">The database context used for accessing user data.</param>
+    /// <param name="configuration">Application configuration for accessing token settings.</param>
     public class AuthService(TaskifyDbContext context, IConfiguration configuration) : IAuthService
     {
+        /// <inheritdoc/>
         public async Task<string?> LoginAsync(UserDto request)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username ==  request.Username);
@@ -29,7 +36,7 @@ namespace Taskify.API.Services
             }
             return null;
         }
-
+        /// <inheritdoc/>
         public async Task<User?> RegisterAsync(UserDto request)
         {
             if (await context.Users.AnyAsync(u => u.Username == request.Username))
@@ -50,6 +57,11 @@ namespace Taskify.API.Services
 
             return user;
         }
+        /// <summary>
+        /// Creates a new JWT token after successful authentication
+        /// </summary>
+        /// <param name="user">A representation of authenticated <see cref="User"/></param>
+        /// <returns>A JWT token in form of <see cref="string"/></returns>
         private string CreateToken(User user)
         {
             var claims = new List<Claim>()

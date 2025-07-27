@@ -9,8 +9,14 @@ using Taskify.API.Services.Shared;
 
 namespace Taskify.API.Services
 {
+    /// <summary>
+    /// Service responsible for managing tasks in the database
+    /// Implements <see cref="ITaskService"/>
+    /// </summary>
+    /// <param name="context">The database context used for accessing user data.</param>
     public class TasksService(TaskifyDbContext context) : ITaskService
     {
+        /// <inheritdoc/>
         private async Task<ToDoTask?> GetSingleTaskForUser(Guid userId, Guid taskId)
         {
             return await context
@@ -19,6 +25,7 @@ namespace Taskify.API.Services
                 .Include(t => t.Priority)
                 .FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<List<ToDoTaskDto>>> GetPendingForUser(Guid userId)
         {
             
@@ -33,6 +40,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<List<ToDoTaskDto>>.Success(data,HttpStatusCode.OK);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<List<ToDoTaskDto>>> GetCompletedForUser(Guid userId)
         {
             var data = await context.ToDoTasks
@@ -46,6 +54,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<List<ToDoTaskDto>>.Success(data, HttpStatusCode.OK);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<ToDoTaskDto>> AddTask(Guid userId, ToDoTaskDto dto)
         {
             var dtoTagIds = dto.Tags.Select(t => t.Id).ToList();
@@ -74,6 +83,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(newTask.ToDto(), HttpStatusCode.Created);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<Guid>> DeleteTask(Guid userId, Guid taskId)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -86,6 +96,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<Guid>.NoContent();
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<ToDoTaskDto>> CompleteTask(Guid userId, Guid taskId)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -102,7 +113,7 @@ namespace Taskify.API.Services
             return TaskServiceResult<ToDoTaskDto>.Success(task.ToDto(), HttpStatusCode.OK);    
         }
 
-        [AllowAnonymous]
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<ToDoTaskDto>> UpdateTags(Guid userId, Guid taskId, List<Guid> updatedTagIds)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -122,6 +133,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(task.ToDto(), HttpStatusCode.OK);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<ToDoTaskDto>> UpdatePriority(Guid userId, Guid taskId, PriorityUpdateDto dto)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -140,6 +152,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(task.ToDto(), HttpStatusCode.OK);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<ToDoTaskDto>> UpdateName(Guid userId, Guid taskId, NameUpdateDto dto)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -152,6 +165,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(task.ToDto(), HttpStatusCode.OK);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<ToDoTaskDto>> UpdateDescription(Guid userId, Guid taskId, DescriptionUpdateDto dto)
         {
             var task = await GetSingleTaskForUser(userId, taskId);
@@ -165,6 +179,7 @@ namespace Taskify.API.Services
 
             return TaskServiceResult<ToDoTaskDto>.Success(task.ToDto(), HttpStatusCode.OK);
         }
+        /// <inheritdoc/>
         public async Task<TaskServiceResult<ToDoTaskDto>> UpdateDueDate(Guid userId, Guid taskId, DateUpdateDto dto)
         {
             var task = await GetSingleTaskForUser(userId, taskId);

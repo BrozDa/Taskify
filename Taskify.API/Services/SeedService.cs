@@ -5,8 +5,16 @@ using Taskify.API.Services.Interfaces;
 
 namespace Taskify.API.Services
 {
+    /// <summary>
+    /// Service responsible with seeding initial data in case of empty database
+    /// Implements <see cref="ISeedService"/>
+    /// </summary>
+    /// <param name="context">The database context used for accessing user data.</param>
+    /// <param name="authService">The service used for user authentication and registration</param>
     public class SeedService(TaskifyDbContext context, IAuthService authService) : ISeedService
     {
+        
+        /// <inheritdoc/>
         public async Task InsertSeedData()
         {
             if (context.Priorities.Any()) { return; }
@@ -19,8 +27,13 @@ namespace Taskify.API.Services
             await context.Priorities.AddRangeAsync(priorityLow, priorityMedium, priorityHigh, priorityCritical);
             await context.SaveChangesAsync();
 
-            User adminUser = await authService.RegisterAsync(new UserDto { Username = "admin", Password = "admin"});
-            User standardUser = await authService.RegisterAsync(new UserDto { Username = "user", Password = "user"});
+            var adminUser = await authService.RegisterAsync(new UserDto { Username = "admin", Password = "admin"});
+            var standardUser = await authService.RegisterAsync(new UserDto { Username = "user", Password = "user"});
+
+            if (adminUser is null || standardUser is null) 
+            {
+                throw new Exception("Unable to insert initial users");
+            }
 
             var tagFamily = new Tag() { Name = "Family", Users = { adminUser, standardUser } };
             var tagWork = new Tag() { Name = "Work", Users = { adminUser, standardUser } };
