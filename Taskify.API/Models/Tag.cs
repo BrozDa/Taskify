@@ -17,10 +17,11 @@ namespace Taskify.API.Models
         /// Gets or sets name of the tag.
         /// </summary>
         public string Name { get; set; } = string.Empty;
-        [JsonIgnore]
+
         /// <summary>
         /// Gets or sets task which have this tag assigned
         /// </summary>
+        [JsonIgnore]
         public List<ToDoTask> Tasks { get; set; } = new();
 
         /// <summary>

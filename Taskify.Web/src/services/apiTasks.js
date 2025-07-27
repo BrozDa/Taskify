@@ -177,7 +177,7 @@ export const tasksUpdateDate = async (taskId, newDate) => {
   if (!token) throw new Error("User not logged in");
 
   try {
-    const response = await axios.patch(`${baseUrl}/${taskId}/date`, { newDate }, {
+    const response = await axios.patch(`${baseUrl}/${taskId}/due-date`, { newDate }, {
       timeout: 5000,
       headers: {
         Authorization: `Bearer ${token}`

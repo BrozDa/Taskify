@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 using Taskify.API.Data;
 using Taskify.API.Services;
@@ -8,6 +10,9 @@ using Taskify.API.Services.Interfaces;
 
 namespace Taskify.API
 {
+    /// <summary>
+    /// Entry point for the API
+    /// </summary>
     public class Program
     {
         static async Task Main(string[] args)
@@ -20,7 +25,15 @@ namespace Taskify.API
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                c.IncludeXmlComments(xmlPath);
+            });
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ISeedService, SeedService>();
             builder.Services.AddScoped<ITaskService, TasksService>();
@@ -55,7 +68,11 @@ namespace Taskify.API
             {
                 
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Taskify API");
+                    c.RoutePrefix = "docs";
+                });
             }
             app.UseCors(options =>
             {
