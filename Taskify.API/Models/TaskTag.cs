@@ -1,6 +1,7 @@
-﻿namespace Taskify.API.Models
-{
+﻿#pragma warning disable CS1591
 
+namespace Taskify.API.Models
+{
     /// <summary>
     /// Join entity that associates a task with a tag in a many-to-many relationship.
     /// </summary>
@@ -13,3 +14,5 @@
         public Tag Tag { get; set; } = null!;
     }
 }
+
+#pragma warning restore CS1591
