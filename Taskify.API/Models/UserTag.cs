@@ -1,5 +1,8 @@
 ﻿namespace Taskify.API.Models
 {
+    /// <summary>
+    /// Join entity that associates a user with a tag in a many-to-many relationship.
+    /// </summary>
     public class UserTag
     {
         public Guid UserId { get; set; }
