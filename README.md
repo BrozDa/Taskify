@@ -52,6 +52,11 @@ Built for learning and fun
 - **Database**: Entity Framework Core (with SQLite or SQL Server)
 - **State Management**: React Context API
 
+## Architecture Notes
+
+- Backend is built using controller-based ASP.NET Core Web API
+- Follows RESTful conventions for resources like Tasks, Tags, and Auth
+- Separation of concerns between controllers, models, and services
 
 ## Areas for Improvement
 
