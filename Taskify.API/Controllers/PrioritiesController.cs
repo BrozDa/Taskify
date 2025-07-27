@@ -6,11 +6,18 @@ using Taskify.API.Models.Dtos;
 
 namespace Taskify.API.Controllers
 {
+    /// <summary>
+    /// Controller responsible for managing priorities.
+    /// </summary>
     [Route("/api/[controller]")]
     [ApiController]
     [Authorize]
     public class PrioritiesController(TaskifyDbContext context) : Controller
     {
+        /// <summary>
+        /// Retrieves all exisiting priorities from the database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("")]
         public async Task<ActionResult<List<PriorityDto>>> GetPrioritiesAsync()
         {

@@ -5,11 +5,14 @@ using Taskify.API.Services.Interfaces;
 
 namespace Taskify.API.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling user authentication and registration.
+    /// </summary>
     [Route("/api/[controller]")]
     [ApiController]
     public class AuthController(IAuthService authService) : ControllerBase
     {
-
+        /// <inheritdoc/>
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
@@ -20,6 +23,7 @@ namespace Taskify.API.Controllers
             }
             return Ok(user);
         }
+        /// <inheritdoc/>
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(UserDto request) 
         {
@@ -31,7 +35,5 @@ namespace Taskify.API.Controllers
             }
             return Ok(token);
         }
-
-        
     }
 }

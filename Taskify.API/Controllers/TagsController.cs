@@ -3,27 +3,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
-using System.Text.Json.Serialization;
 using Taskify.API.Data;
 using Taskify.API.Models;
 using Taskify.API.Models.Dtos;
 
 namespace Taskify.API.Controllers
 {
+    /// <summary>
+    /// Controller responsible for managing tags
+    /// </summary>
     [ApiController]
     [Authorize]
     [Route("/api/[controller]")]
     public class TagsController(TaskifyDbContext context) : Controller
     {
-        private bool AuthorizeUser(out Guid userId)
+        /// <summary>
+        /// Attempts to authenticate user before making any data related operation, by parsing Name identifier claim from JWT token
+        /// </summary>
+        /// <param name="userId">Returns valid <see cref="Guid"/> userId of authenticated user in case of success, otherwise <see cref="Guid.Empty"/> </param>
+        /// <returns>A <c>true</c> in case of successfull authentication</returns>
+        private bool AuthenticateUser(out Guid userId)
         {
             return Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);
         }
-
+        /// <inheritdoc/>
         [HttpGet("")]
         public async Task<ActionResult<List<TagDto>>> GetTagsAsync()
         {
-            if (!AuthorizeUser(out Guid userId)) 
+            if (!AuthenticateUser(out Guid userId)) 
             {
                 return Unauthorized();
             }
@@ -36,11 +43,12 @@ namespace Taskify.API.Controllers
 
             return Ok(result);
         }
+        /// <inheritdoc/>
         [HttpPost("")]
         public async Task<ActionResult<TagDto>> AddTagAsync([FromBody] AddTagDto dto)
         {
 
-            if (!AuthorizeUser(out Guid userId))
+            if (!AuthenticateUser(out Guid userId))
             {
                 return Unauthorized();
             }
@@ -78,11 +86,12 @@ namespace Taskify.API.Controllers
 
             return Ok(newTag.ToDto());
         }
+        /// <inheritdoc/>
         [HttpPost("new/{name}")]
         public async Task<ActionResult<TagDto>> AddTagNewTaskAsync(string name)
         {
 
-            if (!AuthorizeUser(out Guid userId))
+            if (!AuthenticateUser(out Guid userId))
             {
                 return Unauthorized();
             }
