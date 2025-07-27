@@ -12,7 +12,13 @@ namespace Taskify.API.Controllers
     [ApiController]
     public class AuthController(IAuthService authService) : ControllerBase
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Registers a new user
+        /// </summary>
+        /// <param name="request">A instance of <see cref="UserDto"/> with credentials used for registration</param>
+        /// <returns>
+        /// An <see cref="ActionResult{List}"/> containing <see cref="User"/> in case of success, null otherwise
+        /// </returns>
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
@@ -23,9 +29,15 @@ namespace Taskify.API.Controllers
             }
             return Ok(user);
         }
-        /// <inheritdoc/>
+        /// <summary>
+        /// Authenticates existing user
+        /// </summary>
+        /// <param name="request">A instance of <see cref="UserDto"/> with credentials used for authentication</param>
+        /// <returns>
+        /// An <see cref="ActionResult{String}"/> containing A JWT token in case of success, null otherwise
+        /// </returns>
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(UserDto request) 
+        public async Task<ActionResult<string>> Login(UserDto request) 
         {
             var token = await authService.LoginAsync(request);
 

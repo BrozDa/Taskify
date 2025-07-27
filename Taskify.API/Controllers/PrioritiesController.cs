@@ -17,7 +17,9 @@ namespace Taskify.API.Controllers
         /// <summary>
         /// Retrieves all exisiting priorities from the database
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// An <see cref="ActionResult{List}"/> containing all <see cref="TagDto"/> associated with user 
+        /// </returns>
         [HttpGet("")]
         public async Task<ActionResult<List<PriorityDto>>> GetPrioritiesAsync()
         {

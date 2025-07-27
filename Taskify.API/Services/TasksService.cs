@@ -16,7 +16,12 @@ namespace Taskify.API.Services
     /// <param name="context">The database context used for accessing user data.</param>
     public class TasksService(TaskifyDbContext context) : ITaskService
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Retrieves single task using its Id and assigned user
+        /// </summary>
+        /// <param name="userId">A <see cref="Guid"/> of user who have the task assigned</param>
+        /// <param name="taskId">A <see cref="Guid"/> of task to be retrieved</param>
+        /// <returns>A valid instance of <see cref="ToDoTask"/> if found, null otherwise</returns>
         private async Task<ToDoTask?> GetSingleTaskForUser(Guid userId, Guid taskId)
         {
             return await context

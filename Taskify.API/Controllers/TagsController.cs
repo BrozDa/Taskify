@@ -26,7 +26,12 @@ namespace Taskify.API.Controllers
         {
             return Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);
         }
-        /// <inheritdoc/>
+        /// <summary>
+        /// Retrieves list of all <see cref="TagDto"/>
+        /// </summary>
+        /// <returns>
+        /// An <see cref="ActionResult{List}"/> containing all <see cref="TagDto"/> associated with user 
+        /// </returns>
         [HttpGet("")]
         public async Task<ActionResult<List<TagDto>>> GetTagsAsync()
         {
@@ -43,7 +48,13 @@ namespace Taskify.API.Controllers
 
             return Ok(result);
         }
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adds a new Tag
+        /// </summary>
+        /// <param name="dto">A AddTagDto representing tag to be added</param>
+        /// <returns>
+        /// An <see cref="ActionResult{ToDoTaskDto}"/> containing an instance of added <see cref="TagDto"/>
+        /// </returns>
         [HttpPost("")]
         public async Task<ActionResult<TagDto>> AddTagAsync([FromBody] AddTagDto dto)
         {
@@ -86,7 +97,13 @@ namespace Taskify.API.Controllers
 
             return Ok(newTag.ToDto());
         }
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adds new tag which is not associated with any task
+        /// </summary>
+        /// <param name="name">A <see cref="string"/> representing the name of new tag</param>
+        /// <returns>
+        /// An <see cref="ActionResult{ToDoTaskDto}"/> containing an instance of added <see cref="TagDto"/>
+        /// </returns>
         [HttpPost("new/{name}")]
         public async Task<ActionResult<TagDto>> AddTagNewTaskAsync(string name)
         {
