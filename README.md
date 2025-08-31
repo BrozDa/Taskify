@@ -65,6 +65,24 @@ Users can **create, manage, complete, or delete tasks** securely through **JWT-b
 - Add **email verification** during registration for added  security
 - Add **search and filtering** options for tasks and tags
 
+## Running the app within a docker container
+### Prerequisites:
+- [Docker Desktop](https://docs.docker.com/desktop/) (includes Docker Engine, CLI, and Compose)
+- Alternatively  which includes all 3 components
+
+### Run the app:
+```sh
+docker compose up --build
+```
+  **Which**: 
+  1. Starts a SQL Server 2022 instance
+  2. Build and start the Taskify.API backend
+  3. Build and start the Taskify.Web frontend
+    
+### Accessing components:
+  - API → http://localhost:7024
+  - Frontend → http://localhost:3000
+
 ## Screenshots
   ### Dashboard in light mode:
 <img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/624d6921-e94d-4890-87ae-4ab4c18a8c56" />
