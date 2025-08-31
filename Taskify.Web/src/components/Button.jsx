@@ -1,4 +1,4 @@
-function Button({type,text,action, colors="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500"}) {
+function Button({type,text,action, colors="bg-blue-600 hover:bg-blue-700 text-white  dark:bg-blue-500"}) {
   return (
     <button
     type={type}

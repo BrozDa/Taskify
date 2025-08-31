@@ -1,7 +1,5 @@
-import React from 'react'
 import { useState, useEffect, useRef } from 'react';
 import ReactModal from 'react-modal';
-import NewTagModal from './NewTagModal';
 
 function TaskTag({ tags, addExistingTag, addNewTag }) {
 
@@ -25,7 +23,9 @@ const handleAddExistingTag = (tag) => {
 }
 
   const handleModalOpen = () => {
+    setDropDownOpen(false);
     setIsModalOpen(true);
+    
 
   }
   const handleModalClose = () => {

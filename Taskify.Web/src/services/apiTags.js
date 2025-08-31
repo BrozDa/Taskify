@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "https://localhost:7024/api/Tags";
+const baseUrl = "http://localhost:7024/api/Tags";
 
 export const tagsGetAll = async() => {
 

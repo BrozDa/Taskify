@@ -12,7 +12,7 @@ function DashboardLayout() {
       <SideBar isSideBarOpen={isSideBarOpen} />
       <div className="flex-1 flex flex-col">
         <Navbar isMenuOpen={isSideBarOpen} setIsMenuOpen={setIsSideBarOpen} />
-        <main className="flex-1 overflow-auto py-4">
+        <main className="flex-1  bg-inherit py-4">
           <Outlet />
         </main>
         <footer>

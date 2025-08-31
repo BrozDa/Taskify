@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "https://localhost:7024/api/Auth";
+const baseUrl = "http://localhost:7024/api/Auth";
 
 export const authLogin = async (username, password) => {
 
