@@ -1,0 +1,33 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest 
+    ports: 
+      - "1433:1433"
+    volumes:
+      - dbdata:/var/opt/mssql:rw
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MySecretP4ssword!!##
+
+  backend:
+    build: ./Taskify.API
+    depends_on:
+      - db
+    ports:
+      - "7024:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=Taskify;User Id=sa;Password=MySecretP4ssword!!##;TrustServerCertificate=True;
+
+  frontend:
+    build: 
+      context: ./Taskify.Web
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  dbdata:
+
+networks:
+  taskify-net:
