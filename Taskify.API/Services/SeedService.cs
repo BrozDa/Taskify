@@ -1,4 +1,5 @@
-﻿using Taskify.API.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Taskify.API.Data;
 using Taskify.API.Models;
 using Taskify.API.Models.Dtos;
 using Taskify.API.Services.Interfaces;
@@ -17,6 +18,7 @@ namespace Taskify.API.Services
         /// <inheritdoc/>
         public async Task InsertSeedData()
         {
+            
             if (context.Priorities.Any()) { return; }
 
             var priorityLow = new Priority() { Name = "Low", Color = "green" };

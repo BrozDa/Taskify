@@ -60,6 +60,10 @@ namespace Taskify.API
             using var scope = app.Services.CreateScope();
             {
                 var services = scope.ServiceProvider;
+
+                var db = services.GetRequiredService<TaskifyDbContext>();
+                await db.Database.MigrateAsync();
+
                 var seeder = services.GetRequiredService<ISeedService>();
                 await seeder.InsertSeedData();
             }
@@ -78,7 +82,6 @@ namespace Taskify.API
             {
                 options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             });
-            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
